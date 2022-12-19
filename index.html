@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Truly</title>
+</head>
+
+<body>
+    <style>
+        .search-input {
+            border-left: 0 !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            border-radius: 50px;
+
+        }
+
+        .search-button {
+            border-right: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-radius: 50px;
+            border-color: #cfd4da;
+        }
+
+        .search-text {
+            text-align: center;
+        }
+
+        @keyframes changebg {
+            0% {
+                top: -100%;
+                height: 300%;
+            }
+
+            100% {
+                top: -200%;
+                height: 500%;
+            }
+        }
+
+        .search-block {
+            position: absolute;
+            top: 25%;
+            left: 0%;
+            right: 0%;
+            border-color: transparent;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 0 0 var(--light);
+            transition: box-shadow .3s linear;
+        }
+
+        .search-block:hover {
+            background-color: var(--light);
+            box-shadow: 0 0 0 20px var(--light);
+        }
+
+        .search-img {
+            width: 15px;
+            height: 15px;
+        }
+
+        .bg-div {
+            background-image: url("bg.svg");
+            background-repeat: repeat;
+            z-index: -999;
+            position: fixed;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            transform: rotate(45deg);
+            animation: changebg 5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+    <div class="bg-div"></div>
+    <div class="center-block search-block container-fluid container-sm">
+        <br>
+        <h1 class="search-text" style="font-size:3em;font-weight:450;">Truly</h1>
+        <br>
+        <form class="form-horizontal my-2 my-lg-0" role="search" method="get" action="search.html" target="_blank">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn search-button shadow-none border border-light bg-white"><img
+                            class="search-img img-responsive center-block"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAP4SURBVHgB7ZldbhMxEMdnHEBF4iFH2BuQSrwTTgBcgLiESukT4QSUE5A+oAbapg4XaHuCpu9IDSdguUEkeEi/dhhvUtTYzu56d0OD1J9UKfXaXv9tz3g8C3DHHYVAyIlst6vwe1zjLp4DUQ0IAkII/nZMEHLvIZcPQMCJ2u0OYAF4C5CtVgCX+JYokty86tE0RIy24J44VN1uCCWRWcB0xttE8B6KESJFW6r3pQMlkEmAXF+vUVQ54J8BlAXhEB/Qy6KrkSpArrckRfQxdbsQjbjOaLrvA8BMYkO8D8+KiEgUMBk87CdUGSDQYQXuHe7tffpptZfrNaiIp0TYThBUSMRcAdpY6YJOnTPPHkYQyv397RPIiHzNkwFsP24hIV6trCrVGYEnwvkyNli6gGP34LGD0cqqz+A1qtdVGMEz/jlwPA6oMj6AHDhXQDZbHZ6tt2Y5e6DNr73uByjIq2ZL8YsbZrkAXtW97T54YAmYbB34YZaXNfhrGq83Tvm0qxnF3lvJ3kIXDj/Pe77MwWswopfcsTnQACtnz8EDSwBvnbpViQ0WSkapLh9oaB1mEZAED2YEyObGCzAPK6Khr8FmJlrZcqxCXcp25hBldgUInloVUJRy5LvQex1JKLPcZxvNCrCNCujq8jssFLL6Z4dRg4wIo2FgdDVSamcIiySyzwXCKICMGCtg7n+OaxaMNma7FHPagNUPeh/t/5pkAVRi+DwHH4/jwvRC4cz/SIU6z8T988AupHwnMSIaBovVOCReJFeR1T8fcJkdh7ECZDcUFa+j3RtEq38UlFMAZw/MCoTUhgURB45AL6x3Xj7MfPLPCJikPsz9h9W15kYDFoErcOQbXqFo1B1gRZ2i3sJkMvsgzXKBoMAD2406Ayys5r0xuZjeOY6tB+wF93c/H4EHloBpgOWK/euNZivpgp+JG4MPzGcVhz2kMfdSz4PVL6lbDwrkc+SbVp3jLT0Jgd0vdfq9z+/Ak/lZCckzJXim5mUREPrwaKWjOukGF2f1fo03XffsmT5zpFeS80LJIkDbCgIecjdHIC5DtTOJXOMBj8dVOOcVRGi4bnlz8BaRnplLFVE6XiJEWoX47qrzOeTn3lLR7todrsdGHmfBM5AqQKNF9HvdNc75r5VwRxiICOv93va76cSEjjqZReT6wBGnCTFOTNU9mumBb5oJglRnkbKdcn+huX45ongcIdVdSSreJiNOyQyIHpwkhQdFRBQSUCZ5RSyNAE0eEUslQOMrYukEaHxELKUATaqIaRY70zlwG9w4QEPH4wDEWXwZWloBmiQRNHXbSy1AM08E0SQlWYH/gOHw22j18ZMjtocq/4148KrsDy63xh+b8+2opH6yrwAAAABJRU5ErkJggg==" /></button>
+                </span>
+
+                <input type="text" autocomplete="off" class="form-control search-input shadow-none border border-light"
+                    name="q">
+            </div><!-- /input-group -->
+        </form>
+        <br>
+    </div>
+    <nav class="navbar navbar-expand-sm  bg-white navbar-light fixed-bottom">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" id="setting_nav" href="#">设置</a>
+            </li>
+        </ul>
+    </nav>
+    <script src="index.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

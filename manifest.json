@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "truly search",
+    "version": "1.0",
+    "description": "Truly search engine.",
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "https://*.baidu.com/*",
+        "https://*.google.com/*"
+    ],
+    "omnibox": {
+        "keyword": "truly"
+    },
+    "options_ui": {
+        "page": "options.html",
+        "browser_style": true
+    },
+    "content_security_policy": "script-src 'self' https://*.jsdelivr.net; object-src 'self'",
+    "browser_action": {}
+}
