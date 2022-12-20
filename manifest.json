@@ -9,6 +9,19 @@
             "strict_min_version": "42.0"
         }
     },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "chrome_settings_overrides": {
+        "search_provider": {
+            "encoding": "UTF-8",
+            "favicon_url": "https://cheese-233.github.io/truly/favicon.ico",
+            "is_default": true,
+            "keyword": "cheese-233.github.io",
+            "name": "truly",
+            "search_url": "https://cheese-233.github.io/truly/search.html?q={searchTerms}"
+        }
+    },
     "background": {
         "scripts": [
             "background.js"
@@ -17,6 +30,16 @@
     "permissions": [
         "https://*.baidu.com/*",
         "https://*.google.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://cheese-233.github.io/truly/search.html"
+            ],
+            "js": [
+                "search_id.js"
+            ]
+        }
     ],
     "omnibox": {
         "keyword": "truly"

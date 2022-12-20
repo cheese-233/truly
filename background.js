@@ -3,6 +3,7 @@ function openPage() {
         browser.tabs.create({//for firefox
             url: "index.html"
         });
+
     }
     catch (err) {
         chrome.tabs.create({//for chrome
