@@ -3,6 +3,12 @@
     "name": "truly search",
     "version": "1.0",
     "description": "Truly search engine.",
+    "applications": {
+        "gecko": {
+            "id": "truly@truly.pages.dev",
+            "strict_min_version": "42.0"
+        }
+    },
     "background": {
         "scripts": [
             "background.js"

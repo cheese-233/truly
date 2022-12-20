@@ -1,29 +1,29 @@
 function openPage() {
     try {
-        browser.tabs.create({
+        browser.tabs.create({//for firefox
             url: "index.html"
         });
     }
     catch (err) {
-        chrome.tabs.create({
+        chrome.tabs.create({//for chrome
             url: "index.html"
         });
     }
 
 }
 try {
-    browser.browserAction.onClicked.addListener(openPage);
+    browser.browserAction.onClicked.addListener(openPage);//for firefox
 }
 catch (err) {
-    chrome.browserAction.onClicked.addListener(openPage);
+    chrome.browserAction.onClicked.addListener(openPage);//for chrome
 }
 try {
-    browser.omnibox.setDefaultSuggestion({
+    browser.omnibox.setDefaultSuggestion({//for firefox
         description: `Search`
     });
 }
 catch (err) {
-    chrome.omnibox.setDefaultSuggestion({
+    chrome.omnibox.setDefaultSuggestion({//for chrome
         description: `Search`
     });
 }
@@ -31,23 +31,23 @@ catch (err) {
 function openSearch(text) {
     var searchText = "search.html?q=" + text;
     try {
-        browser.tabs.create({
+        browser.tabs.create({//for firefox
             url: searchText
         });
     }
     catch (err) {
-        chrome.tabs.create({
+        chrome.tabs.create({//for chrome
             url: searchText
         });
     }
 }
 try {
-    browser.omnibox.onInputEntered.addListener((text, disposition) => {
+    browser.omnibox.onInputEntered.addListener((text, disposition) => {//for firefox
         openSearch(text);
     });
 }
 catch (err) {
-    chrome.omnibox.onInputEntered.addListener((text, disposition) => {
+    chrome.omnibox.onInputEntered.addListener((text, disposition) => {//for chrome
         openSearch(text);
     });
 }

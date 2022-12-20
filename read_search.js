@@ -1,4 +1,4 @@
-function getQueryString(name) {
+function getQueryString(name) {//get search Content
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);
     if (r != null) {
@@ -12,8 +12,8 @@ if (searchResult == (null || "")) {
 }
 document.title = searchResult + " - Truly";
 document.getElementsByClassName("search-input")[0].value = searchResult;
-document.getElementById("baidu-search").href = "https://www.baidu.com/s?wd=" + searchResult;
-document.getElementById("google-search").href = "https://www.google.com/search?q=" + searchResult;
+var baidu_site = "https://www.baidu.com/s?wd=" + searchResult;
+var google_site = "https://www.google.com/search?q=" + searchResult;
 var page = 0;
 function requestPage(page) {
     function reqListener() {
@@ -52,6 +52,9 @@ function requestPage(page) {
                 b_box_div.appendChild(baidu_img);
             }
             catch (err) {
+                var baidu_img_box = document.createElement('div');
+                baidu_img_box.className = "result_img";
+                b_box_div.appendChild(baidu_img_box);
                 console.log(err);
             }
             try {
@@ -74,7 +77,7 @@ function requestPage(page) {
     }
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
-    req.open("GET", document.getElementById("baidu-search").href + "&pn=" + page * 10);
+    req.open("GET", baidu_site + "&pn=" + page * 10);//Baidu's search results
     req.send();
     function reqListenerG() {
         var div = document.createElement('div');
@@ -97,7 +100,10 @@ function requestPage(page) {
             var b_div = document.createElement('div');
             var b_text_div = document.createElement('div');
             var b_box_div = document.createElement('div');
+            var google_img_box = document.createElement('div');
+            google_img_box.className = "result_img";
             b_box_div.className = "row";
+            b_box_div.appendChild(google_img_box);
             try {
                 google_title.className = "result_title";
                 b_div.appendChild(google_title);
@@ -126,12 +132,12 @@ function requestPage(page) {
 
     const reqG = new XMLHttpRequest();
     reqG.addEventListener("load", reqListenerG);
-    reqG.open("GET", document.getElementById("google-search").href + "&start=" + page * 10);
+    reqG.open("GET", google_site + "&start=" + page * 10);//Google's search results
     reqG.send();
 }
-function requestPagePlus() {
+function requestPagePlus() {//Turn the page
     requestPage(page);
     page++;
 }
-document.getElementById("pagebtn").addEventListener("click", function () { requestPagePlus(); });
-requestPagePlus();
+document.getElementById("pagebtn").addEventListener("click", function () { requestPagePlus(); });//Connect the Button
+requestPagePlus();//Turn to the first page

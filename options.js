@@ -1,9 +1,11 @@
 function saveOptions(e) {
-    var b = document.getElementById("baidu").value;
-    var g = document.getElementById("google").value;
-    var bi = document.getElementById("bing").value;
-    var f = document.getElementById("fsou").value;
+    var b = document.getElementById("baidu").checked;
+    var g = document.getElementById("google").checked;
+    var bi = document.getElementById("bing").checked;
+    var f = document.getElementById("fsou").checked;
+
 }
+
 
 function restoreOptions() {
 }
