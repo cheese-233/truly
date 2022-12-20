@@ -1,8 +1,14 @@
-var ext_id;
-try {
-    ext_id = browser.runtime.getURL("");
+function getQueryString(name) {//get search Content
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return decodeURI(r[2]).replace("+", " ");
+    }
+    return null;
 }
-catch (e) {
-    ext_id = chrome.runtime.getURL("");
-}
-document.getElementById('id_search').innerText = ext_id;
+var searchResult = getQueryString("q");
+(chrome || browser).runtime.sendMessage({ Sresult: searchResult }, function (response) {
+    if (response) {
+
+    }
+});

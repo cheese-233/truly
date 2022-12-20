@@ -9,9 +9,6 @@
             "strict_min_version": "42.0"
         }
     },
-    "chrome_url_overrides": {
-        "newtab": "index.html"
-    },
     "chrome_settings_overrides": {
         "search_provider": {
             "encoding": "UTF-8",
@@ -34,11 +31,12 @@
     "content_scripts": [
         {
             "matches": [
-                "https://cheese-233.github.io/truly/search.html"
+                "https://cheese-233.github.io/truly/*"
             ],
             "js": [
                 "search_id.js"
-            ]
+            ],
+            "run_at": "document_start"
         }
     ],
     "omnibox": {
