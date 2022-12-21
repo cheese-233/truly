@@ -4,7 +4,7 @@ function openPage() {
     });
 
 }
-(chrome || browser).browserAction.onClicked.addListener(openPage);
+(chrome || browser).action.onClicked.addListener(openPage);
 (chrome || browser).omnibox.setDefaultSuggestion({//for firefox
     description: `Search`
 });
@@ -25,15 +25,12 @@ function openSearch(text) {
         ocurTabId = sender.tab.id;
         if (request.Sresult) {
             var searchText = "search.html?q=" + request.Sresult;
-            (chrome || browser).tabs.create({
-                url: searchText
-            });
-            (chrome || browser).tabs.remove(ocurTabId);
         } else {
-            (chrome || browser).tabs.create({//for firefox
-                url: "index.html"
-            });
-            (chrome || browser).tabs.remove(ocurTabId);
+            var searchText = "index.html";
         }
+        (chrome || browser).tabs.create({//for firefox
+            url: searchText
+        });
+        (chrome || browser).tabs.remove(ocurTabId);
         sendResponse({ status: 200 });
     });  

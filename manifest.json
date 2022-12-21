@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "truly search",
     "version": "1.0",
     "description": "Truly search engine.",
@@ -20,13 +20,21 @@
         }
     },
     "background": {
-        "scripts": [
-            "background.js"
-        ]
+        "service_worker": "background.js"
     },
-    "permissions": [
+    "action": {
+        "default_icon": {
+            "64": "favicon.ico"
+        }
+    },
+    "host_permissions": [
         "https://*.baidu.com/*",
-        "https://*.google.com/*"
+        "https://*.google.com/*",
+        "https://*.bing.com/*",
+        "https://*.so.com/*"
+    ],
+    "permissions": [
+        "storage"
     ],
     "content_scripts": [
         {
@@ -45,7 +53,5 @@
     "options_ui": {
         "page": "options.html",
         "browser_style": true
-    },
-    "content_security_policy": "script-src 'self' https://*.jsdelivr.net; object-src 'self'",
-    "browser_action": {}
+    }
 }
