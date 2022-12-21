@@ -3,10 +3,10 @@
     "name": "truly search",
     "version": "1.0",
     "description": "Truly search engine.",
-    "applications": {
+    "browser_specific_settings": {
         "gecko": {
             "id": "truly@truly.pages.dev",
-            "strict_min_version": "42.0"
+            "strict_min_version": "109.0"
         }
     },
     "chrome_settings_overrides": {

@@ -5,7 +5,6 @@ function saveOptions(e) {
     var so = document.getElementById("360").checked;
     var all = { "baidu": b, "google": g, "bing": bi, "360": so };
     (chrome || browser).storage.local.set({ "isSearchEngine": all }, function () {
-        console.log('Value is set to ' + all);
     });
     window.close();
 }
