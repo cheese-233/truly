@@ -116,8 +116,8 @@
                             </svg>
                             <h3>Github Release</h3>
                         </div>
-                        <a href="https://github.com/cheese-233/truly/releases"
-                            class="btn btn-lg btn-sm btn-light mb-3 mr-md-3">点此跳转</a>
+                        <a href="https://github.com/cheese-233/truly/releases/latest"
+                            class="btn btn-lg btn-sm btn-light mb-3 mr-md-3" id="NoProxy">下载</a>
                         <div class="alert alert-info" role="info">
                             下载太慢？<a href="https://ghproxy.com/" id="SubmitProxy">点此</a>获取加速链接</div>
                     </div>
@@ -207,6 +207,7 @@
 
     <script>
         document.getElementById("SubmitProxy").href += "https://github.com/cheese-233/truly/releases/download/" + document.getElementById("versionControl").innerText.split("：")[1] + "/truly.crx"
+        document.getElementById("NoProxy").href = "https://github.com/cheese-233/truly/releases/download/" + document.getElementById("versionControl").innerText.split("：")[1] + "/truly.crx"
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
