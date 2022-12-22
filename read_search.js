@@ -1,7 +1,7 @@
 function getQueryString(name) {//get search Content
     var r = window.location.search.split(name + "=");
     if (r != null) {
-        return decodeURIComponent(r[1]);
+        return decodeURIComponent(r[1].replace(/\+/g, " "));
     }
     return null;
 }

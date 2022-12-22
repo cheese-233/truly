@@ -9,6 +9,9 @@
             "strict_min_version": "109.0"
         }
     },
+    "chrome_url_overrides": {
+        "newtab": "newtab.html"
+    },
     "chrome_settings_overrides": {
         "search_provider": {
             "encoding": "UTF-8",
@@ -19,12 +22,26 @@
             "search_url": "https://cheese-233.github.io/truly/search.html?q={searchTerms}"
         }
     },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "./favicon.ico"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
     "background": {
         "service_worker": "background.js"
     },
+    "icons": {
+        "128": "favicon.ico"
+    },
     "action": {
         "default_icon": {
-            "64": "favicon.ico"
+            "64": "favicon.ico",
+            "128": "favicon.ico"
         }
     },
     "host_permissions": [

@@ -46,34 +46,23 @@
         }
 
         .loadingThree {
-            width: 150px;
+            position: relative;
+            width: 100%;
             height: 15px;
             margin: 0 auto;
-            margin-top: 100px;
+            margin-left: 0;
         }
 
         .loadingThree span {
             display: inline-block;
+            position: relative;
             width: 15px;
             height: 100%;
             margin-right: 5px;
-            border-radius: 50%;
-            background: lightgray;
-            animation: load 1.04s ease infinite;
         }
 
         .loadingThree span:last-child {
             margin-right: 0px;
-        }
-
-        @keyframes load {
-            0% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
         }
 
         .loadingThree span:nth-child(1) {

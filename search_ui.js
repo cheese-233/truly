@@ -29,6 +29,6 @@ window.addEventListener('scroll', () => {
     handleScrollAnimation()
 })
 function LoadingAnimation(isDelete = false) {
-    if (!isDelete) { document.getElementById("search-div").outerHTML += "<div class='loadingThree'><span></span><span></span><span></span><span></span><span></span></div>"; }
+    if (!isDelete) { document.getElementById("search-div").innerHTML += "<div class='loadingThree'><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span></div>"; }
     else { document.getElementsByClassName("loadingThree")[document.getElementsByClassName("loadingThree").length - 1].outerHTML = ""; }
 }
