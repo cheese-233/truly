@@ -25,6 +25,7 @@ function requestPage(page) {
     var RequestState = 0;
     function addDiv() {
         if (RequestState == OpenedSearchEngine) {
+            LoadingAnimation(true);
             for (var key in search_result_all) {
                 document.getElementById("search-div").appendChild(search_result_all[key]);
                 delete search_result_all[key];
@@ -178,12 +179,18 @@ function requestPage(page) {
             }
             var bing_title = bing_div.getElementsByTagName("h2")[0];
             var bing_texts = bing_div.getElementsByTagName("strong");
-            var bing_text;
+            var bing_text = undefined;
             for (var i = 0; i < bing_texts.length; i++) {
                 if (bing_texts[i].parentElement.tagName == ("P")) {
                     bing_text = bing_texts[i].parentElement;
                     break;
                 }
+            }
+            if (bing_text == undefined) {
+                try {
+                    bing_text = bing_div.getElementsByClassName("algoSlug_icon")[0].parentElement;
+                }
+                catch (e) { }
             }
             var b_div = document.createElement('div');
             var b_text_div = document.createElement('div');
@@ -244,7 +251,6 @@ function requestPage(page) {
         var a = div.getElementsByClassName("res-title");
         for (var i = 0; i < a.length; i++) {
             var baidu_div = a[i].parentElement;
-            console.log(baidu_div)
             var baidu_title = baidu_div.getElementsByTagName("h3")[0];
             var baidu_img = baidu_div.getElementsByTagName("img")[0];
             if (baidu_img != undefined) {
@@ -311,6 +317,7 @@ function requestPage(page) {
     }
 }
 function requestPagePlus() {//Turn the page
+    LoadingAnimation(false);
     requestPage(page);
     page++;
 }

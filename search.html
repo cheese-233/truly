@@ -34,26 +34,88 @@
             -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
         }
+
+        .search-div {
+            margin-top: 80px;
+        }
+
+        .home_button {
+            transition-property: font-size;
+            transition-duration: 0.5s;
+            transition-timing-function: ease-in;
+        }
+
+        .loadingThree {
+            width: 150px;
+            height: 15px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .loadingThree span {
+            display: inline-block;
+            width: 15px;
+            height: 100%;
+            margin-right: 5px;
+            border-radius: 50%;
+            background: lightgray;
+            animation: load 1.04s ease infinite;
+        }
+
+        .loadingThree span:last-child {
+            margin-right: 0px;
+        }
+
+        @keyframes load {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .loadingThree span:nth-child(1) {
+            animation-delay: 0.13s;
+        }
+
+        .loadingThree span:nth-child(2) {
+            animation-delay: 0.26s;
+        }
+
+        .loadingThree span:nth-child(3) {
+            animation-delay: 0.39s;
+        }
+
+        .loadingThree span:nth-child(4) {
+            animation-delay: 0.52s;
+        }
+
+        .loadingThree span:nth-child(5) {
+            animation-delay: 0.65s;
+        }
     </style>
     <nav class="navbar navbar-expand-sm navbar-light fixed-top search-nav">
         <!-- Brand -->
-        <a class="navbar-brand" href="index.html">Truly</a>
+        <a class="navbar-brand home_button" href="index.html" style="font-size:2rem;" id="home_button">Truly</a>
         <form class="form-inline" role="search" method="get" action="#">
             <input type="text" autocomplete="off" class="form-control search-input shadow-none border border-light"
                 name="q">
         </form>
     </nav>
 
-    <div id="search-div" class="container" style="margin-top:80px">
+    <div id="search-div" class="container search-div">
     </div>
     <button class='btn btn-link ' id="pagebtn" type='button'>
         <h5>下一页</h5>
     </button>
 
-    <script src="read_search.js"></script>
     <script src="frame/jquery.slim.min.js"></script>
     <script src="frame/popper.min.js"></script>
     <script src="frame/bootstrap.min.js"></script>
+    <script src="search_ui.js"></script>
+    <script src="read_search.js"></script>
 </body>
 
 </html>
