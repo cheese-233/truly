@@ -1,7 +1,7 @@
 function getQueryString(name) {//get search Content
-    var r = window.location.search.split(name + "=");
-    if (r != null) {
-        return decodeURIComponent(r[1].replace(/\+/g, " "));
+    var r = window.location.search.split(name + "=")[1];
+    if (r != undefined) {
+        return decodeURIComponent(r.replace(/\+/g, " "));
     }
     return null;
 }
@@ -103,6 +103,7 @@ function requestPage(page) {
             }
         }
     }
+
     function reqListenerG() {
         var div = document.createElement('div');
         div.innerHTML = this.responseText;

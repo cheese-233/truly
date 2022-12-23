@@ -84,13 +84,25 @@
         .loadingThree span:nth-child(5) {
             animation-delay: 0.65s;
         }
+
+        .search-dropdown {
+            left: 0 !important;
+            margin-top: 0 !important;
+            max-height: 50vh !important;
+        }
     </style>
     <nav class="navbar navbar-expand-sm navbar-light fixed-top search-nav">
         <!-- Brand -->
         <a class="navbar-brand home_button" href="index.html" style="font-size:2rem;" id="home_button">Truly</a>
         <form class="form-inline" role="search" method="get" action="#">
             <input type="text" autocomplete="off" class="form-control search-input shadow-none border border-light"
-                name="q">
+                name="q" id="q">
+            <div class="input-group-btn">
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu search-dropdown" role="menu">
+                </ul>
+            </div>
         </form>
     </nav>
 
@@ -103,6 +115,8 @@
     <script src="frame/jquery.slim.min.js"></script>
     <script src="frame/popper.min.js"></script>
     <script src="frame/bootstrap.min.js"></script>
+    <script src="frame/bootstrap-suggest.js"></script>
+    <script src="search-suggest.js"></script>
     <script src="search_ui.js"></script>
     <script src="read_search.js"></script>
 </body>

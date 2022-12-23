@@ -9,9 +9,6 @@
             "strict_min_version": "109.0"
         }
     },
-    "chrome_url_overrides": {
-        "newtab": "newtab.html"
-    },
     "chrome_settings_overrides": {
         "search_provider": {
             "encoding": "UTF-8",
@@ -22,6 +19,7 @@
             "search_url": "https://cheese-233.github.io/truly/search.html?q={searchTerms}"
         }
     },
+    "homepage_url": "https://cheese-233.github.io/truly/search.html",
     "web_accessible_resources": [
         {
             "resources": [
