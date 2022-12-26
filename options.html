@@ -8,9 +8,33 @@
     <link rel="stylesheet" href="frame/bootstrap.min.css">
 
 </head>
+<style>
+    :root {
+        --mainColor: var(--white);
+        --text-color: #212529;
+        --link-color: var(--blue);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --mainColor: var(--gray-dark);
+            --text-color: #ccc;
+            --link-color: var(--primary);
+        }
+    }
+
+    body {
+        background-color: var(--mainColor);
+        color: var(--text-color);
+    }
+
+    a {
+        color: var(--link-color);
+    }
+</style>
 
 <body>
-    <div class="container">
+    <div class="container" style="padding-bottom:1rem;">
         <form>
             选择使用的搜索引擎<br>
             <div class="form-check">
@@ -33,10 +57,11 @@
             <input type="submit" value="提交" class="btn btn-primary" />
         </form>
     </div>
-    <script src="frame/jquery.slim.min.js"></script>
-    <script src="frame/popper.min.js"></script>
-    <script src="frame/bootstrap.min.js"></script>
-    <script src="options.js"></script>
 </body>
+<script src="autoDarkMode (doge.js"></script>
+<script src="frame/jquery.slim.min.js"></script>
+<script src="frame/popper.min.js"></script>
+<script src="frame/bootstrap.min.js"></script>
+<script src="options.js"></script>
 
 </html>

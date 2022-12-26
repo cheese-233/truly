@@ -32,4 +32,14 @@ function LoadingAnimation(isDelete = false) {
     if (!isDelete) { document.getElementById("search-div").innerHTML += "<div class='loadingThree'><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span></div>"; }
     else { document.getElementsByClassName("loadingThree")[document.getElementsByClassName("loadingThree").length - 1].outerHTML = ""; }
 }
+function DontHaveEngine() {
+    document.getElementById("search-div").innerHTML += "<h3>还没有添加搜索引擎。请先在<a href='#' id='setting_a'>设置</a>中添加一个。</h3>";
+    document.getElementById("setting_a").addEventListener("click", function () {
+        try {
+            browser.runtime.openOptionsPage();//for firefox
+        } catch (err) {
+            chrome.runtime.openOptionsPage();//for chrome
+        }
+    });
+}
 SearchSug();

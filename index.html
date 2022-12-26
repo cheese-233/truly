@@ -6,93 +6,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="frame/bootstrap.min.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <title>Truly</title>
 </head>
+<style>
+    :root {
+        --mainColor: var(--white);
+        --text-color: #212529;
+        --link-color: var(--blue);
+    }
 
-<body>
-    <style>
+    .search-nav {
+        background-color: #f8f9fa99;
+    }
+
+    .search-block {
+        box-shadow: 2px 2px 0.5rem lightgrey;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --mainColor: var(--gray-dark);
+            --text-color: #ccc;
+            --link-color: var(--primary);
+        }
+
+        .search-nav {
+            background-color: #38383899;
+        }
+
+        .search-block {
+            box-shadow: 2px 2px 0.5rem #222222;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
         .search-input {
-            border-left: 0 !important;
-            border-top-left-radius: 0 !important;
-            border-bottom-left-radius: 0 !important;
-            border-radius: 50px;
-
+            background-color: #2a2a2a !important;
+            color: var(--text-color) !important;
         }
 
         .search-button {
-            border-right: 0 !important;
-            border-top-right-radius: 0 !important;
-            border-bottom-right-radius: 0 !important;
-            border-radius: 50px;
-            border-color: #cfd4da;
+            background-color: #2a2a2a !important;
         }
 
         .search-button-right {
-            border-left: 0 !important;
-            border-top-left-radius: 0 !important;
-            border-bottom-left-radius: 0 !important;
-            border-radius: 50px;
-            border-color: #cfd4da;
-        }
-
-        .search-text {
-            text-align: center;
-        }
-
-        .search-dropdown {
-            left: 0 !important;
-            margin-top: 0 !important;
-            max-height: calc(75vh - 230px) !important;
-            border-top-width: 0 !important;
-        }
-
-        @media (min-width: 576px) {
-            .search-block {
-                position: absolute;
-                top: 25%;
-                left: 0%;
-                right: 0%;
-                border-color: transparent;
-                border-radius: 25px;
-                box-shadow: 2px 2px 0.5rem lightgrey;
-                background-color: rgba(255, 255, 255, 0.7);
-                -webkit-backdrop-filter: blur(15px);
-                backdrop-filter: blur(15px);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .search-block {
-                position: absolute;
-                top: 0%;
-                left: 0%;
-                right: 0%;
-                height: 100%;
-                width: 100%;
-                padding-top: 25%;
-                background-color: rgba(255, 255, 255, 0.7);
-                -webkit-backdrop-filter: blur(15px);
-                backdrop-filter: blur(15px);
-            }
-        }
-
-        .search-img {
-            width: 15px;
-            height: 15px;
+            background-color: #2a2a2a !important;
         }
 
         .bg-div {
-            background-image: url("bg.svg");
-            background-repeat: repeat;
-            z-index: -999;
-            position: fixed;
-            top: -100%;
-            left: -100%;
-            width: 300%;
-            height: 300%;
-            transform: rotate(45deg);
+            filter: invert(100%);
         }
-    </style>
+
+        .search-dropdown {
+            background-color: #2a2a2a !important;
+        }
+
+        .table {
+            color: var(--text-color) !important;
+        }
+    }
+
+    body {
+        background-color: var(--mainColor);
+        color: var(--text-color);
+    }
+
+    a {
+        color: var(--link-color);
+    }
+
+    .search-input {
+        border-left: 0 !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-radius: 50px;
+
+    }
+
+    .search-button {
+        border-right: 0 !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-radius: 50px;
+        border-color: #cfd4da;
+    }
+
+    .search-button-right {
+        border-left: 0 !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-radius: 50px;
+        border-color: #cfd4da;
+    }
+
+    .search-text {
+        text-align: center;
+    }
+
+    .search-dropdown {
+        left: 0 !important;
+        margin-top: 0 !important;
+        max-height: calc(75vh - 230px) !important;
+        border-top-width: 0 !important;
+    }
+
+    @media (min-width: 576px) {
+        .search-block {
+            position: absolute;
+            top: 25%;
+            left: 0%;
+            right: 0%;
+            border-color: transparent;
+            border-radius: 25px;
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .search-block {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            right: 0%;
+            height: 100%;
+            width: 100%;
+            padding-top: 25%;
+            background-color: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+        }
+    }
+
+    .search-img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .bg-div {
+        background-image: url("bg.svg");
+        background-repeat: repeat;
+        z-index: -999;
+        position: fixed;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        transform: rotate(45deg);
+    }
+</style>
+
+<body>
     <div class="bg-div"></div>
     <div class="center-block search-block container-fluid container-sm">
         <br>
@@ -126,13 +191,13 @@
             </li>
         </ul>
     </nav>
-    <script src="frame/jquery.slim.min.js"></script>
-    <script src="frame/popper.min.js"></script>
-    <script src="frame/bootstrap.min.js"></script>
-    <script src="frame/bootstrap-suggest.js"></script>
-    <script src="search-suggest.js"></script>
-    <script src="index.js" defer></script>
-
 </body>
+<script src="autoDarkMode (doge.js"></script>
+<script src="frame/jquery.slim.min.js"></script>
+<script src="frame/popper.min.js"></script>
+<script src="frame/bootstrap.min.js"></script>
+<script src="frame/bootstrap-suggest.js"></script>
+<script src="search-suggest.js"></script>
+<script src="index.js" defer></script>
 
 </html>

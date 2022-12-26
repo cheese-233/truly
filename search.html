@@ -4,93 +4,152 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="frame/bootstrap.min.css">
     <title>Truly</title>
 </head>
+<style>
+    :root {
+        --mainColor: var(--white);
+        --text-color: #212529;
+        --link-color: var(--blue);
+    }
 
-<body>
-    <style>
-        .search-input {
-            border-radius: 50px;
+    .search-nav {
+        background-color: #f8f9fa99;
+    }
 
-        }
-
-        .result_title {
-            font-size: 1.5em;
-        }
-
-        .result_text_box {
-            width: 300px;
-        }
-
-        .result_img {
-            width: 128px;
-            height: 85px;
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --mainColor: var(--gray-dark);
+            --text-color: #ccc;
+            --link-color: var(--primary);
         }
 
         .search-nav {
-            background-color: #f8f9fa99;
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
+            background-color: #38383899;
         }
 
-        .search-div {
-            margin-top: 80px;
-        }
-
-        .home_button {
-            transition-property: font-size;
-            transition-duration: 0.5s;
-            transition-timing-function: ease-in;
-        }
-
-        .loadingThree {
-            position: relative;
-            width: 100%;
-            height: 15px;
-            margin: 0 auto;
-            margin-left: 0;
-        }
-
-        .loadingThree span {
-            display: inline-block;
-            position: relative;
-            width: 15px;
-            height: 100%;
-            margin-right: 5px;
-        }
-
-        .loadingThree span:last-child {
-            margin-right: 0px;
-        }
-
-        .loadingThree span:nth-child(1) {
-            animation-delay: 0.13s;
-        }
-
-        .loadingThree span:nth-child(2) {
-            animation-delay: 0.26s;
-        }
-
-        .loadingThree span:nth-child(3) {
-            animation-delay: 0.39s;
-        }
-
-        .loadingThree span:nth-child(4) {
-            animation-delay: 0.52s;
-        }
-
-        .loadingThree span:nth-child(5) {
-            animation-delay: 0.65s;
+        .search-input {
+            background-color: #2a2a2a !important;
+            color: var(--text-color) !important;
         }
 
         .search-dropdown {
-            left: 0 !important;
-            margin-top: 0 !important;
-            max-height: 50vh !important;
+            background-color: #2a2a2a !important;
         }
-    </style>
+
+        .table {
+            color: var(--text-color) !important;
+        }
+
+        .loadingThree {
+            filter: invert(100%);
+        }
+    }
+
+    body {
+        background-color: var(--mainColor);
+        color: var(--text-color);
+    }
+
+    a {
+        color: var(--link-color);
+    }
+
+    .search-input {
+        border-radius: 50px;
+
+    }
+
+    .result_title {
+        font-size: 1.5em;
+    }
+
+    .result_text_box {
+        margin-left: 1rem;
+    }
+
+    @media (min-width: 576px) {
+        .result_text_box {
+            max-width: calc(100% - 128px - 20%);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .result_text_box {
+            max-width: calc(100% - 128px);
+        }
+    }
+
+    .result_img {
+        width: 128px;
+        height: 85px;
+    }
+
+    .search-nav {
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
+
+    .search-div {
+        margin-top: 80px;
+    }
+
+    .home_button {
+        transition-property: font-size;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-in;
+    }
+
+    .loadingThree {
+        position: relative;
+        width: 100%;
+        height: 15px;
+        margin: 0 auto;
+        margin-left: 0;
+    }
+
+    .loadingThree span {
+        display: inline-block;
+        position: relative;
+        width: 15px;
+        height: 100%;
+        margin-right: 5px;
+    }
+
+    .loadingThree span:last-child {
+        margin-right: 0px;
+    }
+
+    .loadingThree span:nth-child(1) {
+        animation-delay: 0.13s;
+    }
+
+    .loadingThree span:nth-child(2) {
+        animation-delay: 0.26s;
+    }
+
+    .loadingThree span:nth-child(3) {
+        animation-delay: 0.39s;
+    }
+
+    .loadingThree span:nth-child(4) {
+        animation-delay: 0.52s;
+    }
+
+    .loadingThree span:nth-child(5) {
+        animation-delay: 0.65s;
+    }
+
+    .search-dropdown {
+        left: 0 !important;
+        margin-top: 0 !important;
+        max-height: 50vh !important;
+    }
+</style>
+
+<body>
     <nav class="navbar navbar-expand-sm navbar-light fixed-top search-nav">
         <!-- Brand -->
         <a class="navbar-brand home_button" href="index.html" style="font-size:2rem;" id="home_button">Truly</a>
@@ -106,19 +165,23 @@
         </form>
     </nav>
 
-    <div id="search-div" class="container search-div">
+    <div id="search-div" class="container-sm search-div">
     </div>
-    <button class='btn btn-link ' id="pagebtn" type='button'>
-        <h5>下一页</h5>
-    </button>
+    <br>
+    <div style="margin: 1rem;">
+        <button class='btn btn-link btn-sm' id="pagebtn" type='button'>
+            <h5>下一页</h5>
+        </button>
+    </div>
 
-    <script src="frame/jquery.slim.min.js"></script>
-    <script src="frame/popper.min.js"></script>
-    <script src="frame/bootstrap.min.js"></script>
-    <script src="frame/bootstrap-suggest.js"></script>
-    <script src="search-suggest.js"></script>
-    <script src="search_ui.js"></script>
-    <script src="read_search.js"></script>
 </body>
+<script src="autoDarkMode (doge.js"></script>
+<script src="frame/jquery.slim.min.js"></script>
+<script src="frame/popper.min.js"></script>
+<script src="frame/bootstrap.min.js"></script>
+<script src="frame/bootstrap-suggest.js"></script>
+<script src="search-suggest.js"></script>
+<script src="search_ui.js"></script>
+<script src="read_search.js"></script>
 
 </html>

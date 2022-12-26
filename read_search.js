@@ -17,20 +17,31 @@ bing_site = undefined;
 so_site = undefined;
 page = 0;
 OpenedSearchEngine = 0;
-function DontHaveEngine() {
-    document.getElementById("search-div").innerHTML += "<h3>还没有添加搜索引擎。请先在设置中添加一个。</h3>";
-}
 function requestPage(page) {
     search_result_all = {};
     var RequestState = 0;
+    function formatTitle(El, Tag1) {
+        var regx = /<[^>]*>|<\/[^>]*>/gm;
+        try {
+            El.innerHTML = El.innerHTML.replace(regx, "");
+        }
+        catch (e) {
+
+        }
+    }
     function addDiv() {
+        var AlreadyDelete = [];
         if (RequestState == OpenedSearchEngine) {
             LoadingAnimation(true);
             for (var key in search_result_all) {
-                document.getElementById("search-div").appendChild(search_result_all[key]);
-                delete search_result_all[key];
-                document.getElementById("search-div").innerHTML += "<br>";
+                if (AlreadyDelete.indexOf(key) == -1) {
+                    document.getElementById("search-div").appendChild(search_result_all[key]);
+                    AlreadyDelete.push(key);
+                    delete search_result_all[key];
+                    document.getElementById("search-div").innerHTML += "<br>";
+                }
             }
+            isReadyRequest = true;
         }
     }
     function reqListener() {
@@ -40,10 +51,6 @@ function requestPage(page) {
         for (var i = 0; i < a.length; i++) {
             var baidu_div = a[i].parentElement;
             var baidu_title = baidu_div.getElementsByTagName("h3")[0];
-            if (baidu_div.getElementsByClassName("ec-tuiguang").length != 0) {
-                console.log(baidu_title.innerHTML + " is ad!");
-                continue;
-            }
             var baidu_texts = baidu_div.getElementsByTagName("em");
             var baidu_text;
             for (var i = 0; i < baidu_texts.length; i++) {
@@ -58,14 +65,29 @@ function requestPage(page) {
             var b_box_div = document.createElement('div');
             b_box_div.className = "row";
             try {
+                var Ele = baidu_title.getElementsByClassName("icon-official");
+                for (var i = 0; i < Ele.length; i++) {
+                    Ele[i].outerHTML = "";
+                }
+                Ele = baidu_title.getElementsByClassName("c-gap-left-small");
+                for (var i = 0; i < Ele.length; i++) {
+                    Ele[i].outerHTML = "";
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+            try {
                 baidu_title.className = "result_title";
-                b_div.appendChild(baidu_title);
+                formatTitle(baidu_title.childNodes[0]);
+                b_text_div.appendChild(baidu_title);
             }
             catch (err) {
                 console.log(err);
             }
             try {
                 baidu_img.className = "result_img";
+                baidu_img.loading = "lazy";
                 b_box_div.appendChild(baidu_img);
             }
             catch (err) {
@@ -77,11 +99,11 @@ function requestPage(page) {
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(baidu_text);
-                b_box_div.appendChild(b_text_div);
             }
             catch (err) {
                 console.log(err);
             }
+            b_box_div.appendChild(b_text_div);
             try {
                 b_div.appendChild(b_box_div);
             }
@@ -135,7 +157,7 @@ function requestPage(page) {
             b_box_div.appendChild(google_img_box);
             try {
                 google_title.className = "result_title";
-                b_div.appendChild(google_title);
+                b_text_div.appendChild(google_title);
             }
             catch (err) {
                 console.log(err);
@@ -143,11 +165,11 @@ function requestPage(page) {
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(google_text);
-                b_box_div.appendChild(b_text_div);
             }
             catch (err) {
                 console.log(err);
             }
+            b_box_div.appendChild(b_text_div);
             try {
                 b_div.appendChild(b_box_div);
             }
@@ -199,20 +221,22 @@ function requestPage(page) {
             var bing_img_box = document.createElement('div');
             bing_img_box.className = "result_img";
             b_box_div.className = "row";
-            var baidu_img = bing_div.getElementsByTagName("img")[0];
+            var bing_img = bing_div.getElementsByTagName("img")[0];
             try {
-                baidu_img.className = "result_img";
-                b_box_div.appendChild(baidu_img);
+                bing_img.className = "result_img";
+                bing_img.loading = "lazy";
+                b_box_div.appendChild(bing_img);
             }
             catch (err) {
-                var baidu_img_box = document.createElement('div');
-                baidu_img_box.className = "result_img";
-                b_box_div.appendChild(baidu_img_box);
+                var bing_img_box = document.createElement('div');
+                bing_img_box.className = "result_img";
+                b_box_div.appendChild(bing_img_box);
                 console.log(err);
             }
             try {
                 bing_title.className = "result_title";
-                b_div.appendChild(bing_title);
+                formatTitle(bing_title.childNodes[0]);
+                b_text_div.appendChild(bing_title);
             }
             catch (err) {
                 console.log(err);
@@ -220,11 +244,11 @@ function requestPage(page) {
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(bing_text);
-                b_box_div.appendChild(b_text_div);
             }
             catch (err) {
                 console.log(err);
             }
+            b_box_div.appendChild(b_text_div);
             try {
                 b_div.appendChild(b_box_div);
             }
@@ -251,17 +275,26 @@ function requestPage(page) {
         div.innerHTML = this.responseText;
         var a = div.getElementsByClassName("res-title");
         for (var i = 0; i < a.length; i++) {
-            var baidu_div = a[i].parentElement;
-            var baidu_title = baidu_div.getElementsByTagName("h3")[0];
-            var baidu_img = baidu_div.getElementsByTagName("img")[0];
-            if (baidu_img != undefined) {
-                var baidu_text = baidu_div.getElementsByClassName("res-comm-con")[0];
+            var so_div = a[i].parentElement;
+            var so_title = so_div.getElementsByTagName("h3")[0];
+            var so_img = so_div.getElementsByTagName("img")[0];
+            if (so_img != undefined) {
+                var so_text = so_div.getElementsByClassName("res-comm-con")[0];
             }
             else {
-                var baidu_text = baidu_div.getElementsByClassName("res-desc")[0];
+                var so_text = so_div.getElementsByClassName("res-desc")[0];
             }
             try {
-                baidu_img.src = baidu_img.outerHTML.split("data-isrc=\"")[1].split("\"")[0];
+                var t = so_text.getElementsByTagName("a");
+                for (var i = 0; i < t.length; i++) {
+                    t[i].outerHTML = "";
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+            try {
+                so_img.src = so_img.outerHTML.split("data-isrc=\"")[1].split("\"")[0];
             }
             catch (e) {
 
@@ -271,26 +304,45 @@ function requestPage(page) {
             var b_box_div = document.createElement('div');
             b_box_div.className = "row";
             try {
-                baidu_title.className = "result_title";
-                b_div.appendChild(baidu_title);
+                var Ele = so_title.getElementsByClassName("icon-official");
+                for (var i = 0; i < Ele.length; i++) {
+                    Ele[i].outerHTML = "";
+                }
             }
             catch (err) {
                 console.log(err);
             }
             try {
-                baidu_img.className = "result_img";
-                b_box_div.appendChild(baidu_img);
+                so_title.className = "result_title";
+                formatTitle(so_title.childNodes[0]);
+                b_text_div.appendChild(so_title);
             }
             catch (err) {
-                var baidu_img_box = document.createElement('div');
-                baidu_img_box.className = "result_img";
-                b_box_div.appendChild(baidu_img_box);
+                console.log(err);
+            }
+            try {
+                so_img.className = "result_img";
+                so_img.loading = "lazy";
+                b_box_div.appendChild(so_img);
+            }
+            catch (err) {
+                var so_img_box = document.createElement('div');
+                so_img_box.className = "result_img";
+                b_box_div.appendChild(so_img_box);
                 console.log(err);
             }
             try {
                 b_text_div.className = "result_text_box";
-                b_text_div.appendChild(baidu_text);
-                b_box_div.appendChild(b_text_div);
+                b_text_div.appendChild(so_text);
+            }
+            catch (err) {
+                console.log(err);
+            }
+            b_box_div.appendChild(b_text_div);
+            try {
+                for (var i in b_text_div.getElementsByClassName("g-linkinfo")) {
+                    i.outerHTML = "";
+                }
             }
             catch (err) {
                 console.log(err);
@@ -301,7 +353,7 @@ function requestPage(page) {
             catch (err) {
                 console.log(err);
             }
-            search_result_all[baidu_title.innerText] = b_div;
+            search_result_all[so_title.innerText] = b_div;
         }
         addDiv();
     }
@@ -317,10 +369,14 @@ function requestPage(page) {
         }
     }
 }
+var isReadyRequest = true;
 function requestPagePlus() {//Turn the page
-    LoadingAnimation(false);
-    requestPage(page);
-    page++;
+    if (isReadyRequest) {
+        isReadyRequest = false;
+        LoadingAnimation(false);
+        requestPage(page);
+        page++;
+    }
 }
 (chrome || browser).storage.local.get(function (result) {
     var all = result['isSearchEngine'];
@@ -345,5 +401,7 @@ function requestPagePlus() {//Turn the page
         OpenedSearchEngine++;
     }
     requestPagePlus();//Turn to the first page
-    document.getElementById("pagebtn").addEventListener("click", function () { requestPagePlus(); });//Connect the Button
+    document.getElementById("pagebtn").addEventListener("click", function () {
+        requestPagePlus();
+    });//Connect the Button
 });
