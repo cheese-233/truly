@@ -360,7 +360,7 @@ function requestPage(page) {
     if (so_site != undefined) {
         const reqS = new XMLHttpRequest();
         reqS.addEventListener("load", reqListenerS);
-        reqS.open("GET", so_site + "&pn=" + (page + 1));//Baidu's search results
+        reqS.open("GET", so_site + "&pn=" + (page + 1));//360's search results
         reqS.send();
         reqS.onreadystatechange = function () {
             if (reqS.readyState == XMLHttpRequest.DONE) {
