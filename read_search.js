@@ -15,24 +15,34 @@ baidu_site = undefined;
 google_site = undefined;
 bing_site = undefined;
 so_site = undefined;
-page = 0;
+var Page = 0;
 OpenedSearchEngine = 0;
 function requestPage(page) {
     search_result_all = {};
     var RequestState = 0;
     function formatTitle(El, Tag1) {
-        var regx = /<[^>]*>|<\/[^>]*>/gm;
         try {
-            El.innerHTML = El.innerHTML.replace(regx, "");
+            els = El.getElementsByTagName(Tag1);
+            for (var i = 0; i < els.length; i++) {
+                els[i].outerHTML = els[i].innerHTML;
+            }
         }
         catch (e) {
 
         }
     }
+    function addPages() {
+        var la = document.createElement("label");
+        var pages = String(page + 1)
+        la.id = "page" + pages;
+        document.getElementById("search-div").appendChild(la);
+        addPageBtn(la.id, pages);
+    }
+    var AlreadyDelete = []; //去重
     function addDiv() {
-        var AlreadyDelete = [];
         if (RequestState == OpenedSearchEngine) {
             LoadingAnimation(true);
+            addPages();
             for (var key in search_result_all) {
                 if (AlreadyDelete.indexOf(key) == -1) {
                     document.getElementById("search-div").appendChild(search_result_all[key]);
@@ -79,7 +89,7 @@ function requestPage(page) {
             }
             try {
                 baidu_title.className = "result_title";
-                formatTitle(baidu_title.childNodes[0]);
+                formatTitle(baidu_title, "em");
                 b_text_div.appendChild(baidu_title);
             }
             catch (err) {
@@ -235,7 +245,7 @@ function requestPage(page) {
             }
             try {
                 bing_title.className = "result_title";
-                formatTitle(bing_title.childNodes[0]);
+                formatTitle(bing_title, "strong");
                 b_text_div.appendChild(bing_title);
             }
             catch (err) {
@@ -314,7 +324,7 @@ function requestPage(page) {
             }
             try {
                 so_title.className = "result_title";
-                formatTitle(so_title.childNodes[0]);
+                formatTitle(so_title, "em");
                 b_text_div.appendChild(so_title);
             }
             catch (err) {
@@ -374,14 +384,17 @@ function requestPagePlus() {//Turn the page
     if (isReadyRequest) {
         isReadyRequest = false;
         LoadingAnimation(false);
-        requestPage(page);
-        page++;
+        requestPage(Page);
+        Page++;
     }
 }
 (chrome || browser).storage.local.get(function (result) {
     var all = result['isSearchEngine'];
     if (all == undefined) {
         DontHaveEngine();
+        return;
+    }
+    if (NotForPhone()) {
         return;
     }
     if (all["baidu"]) {
@@ -400,8 +413,9 @@ function requestPagePlus() {//Turn the page
         so_site = "https://www.so.com/s?q=" + searchResult;
         OpenedSearchEngine++;
     }
+    if (OpenedSearchEngine == 0) {
+        DontHaveEngine();
+        return;
+    }
     requestPagePlus();//Turn to the first page
-    document.getElementById("pagebtn").addEventListener("click", function () {
-        requestPagePlus();
-    });//Connect the Button
 });

@@ -2,7 +2,7 @@ if (window.location.pathname.indexOf("search.html") != -1) {
     function getQueryString(name) {//get search Content
         var r = window.location.search.split(name + "=")[1];
         if (r != undefined) {
-            return decodeURIComponent(r.replace(/\+/g, " "));
+            return r;
         }
         return null;
     }

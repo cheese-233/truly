@@ -21,7 +21,7 @@
 
     @media (prefers-color-scheme: dark) {
         :root {
-            --mainColor: var(--gray-dark);
+            --mainColor: #212121;
             --text-color: #ccc;
             --link-color: var(--primary);
         }
@@ -147,6 +147,14 @@
         margin-top: 0 !important;
         max-height: 50vh !important;
     }
+
+    .pages-control {
+        font-size: 1.5rem;
+    }
+
+    .pages-control a {
+        padding: 0.5rem;
+    }
 </style>
 
 <body>
@@ -169,9 +177,10 @@
     </div>
     <br>
     <div style="margin: 1rem;">
-        <button class='btn btn-link btn-sm' id="pagebtn" type='button'>
-            <h5>下一页</h5>
-        </button>
+        <div class="row">
+            <div id="pages" class="pages-control">
+            </div>
+        </div>
     </div>
 
 </body>

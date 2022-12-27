@@ -10,7 +10,7 @@ function openPage() {
 });
 
 function openSearch(text) {
-    var searchText = "search.html?q=" + text;
+    let searchText = "search.html?q=" + text;
     (chrome || browser).tabs.create({//for firefox
         url: searchText
     });
@@ -22,15 +22,20 @@ function openSearch(text) {
 
 (chrome || browser).runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        ocurTabId = sender.tab.id;
+        let ocurTabId = sender.tab.id;
+        let searchText;
         if (request.Sresult) {
-            var searchText = "search.html?q=" + request.Sresult;
+            searchText = "search.html?q=" + request.Sresult;
         } else {
-            var searchText = "index.html";
+            searchText = "index.html";
         }
-        (chrome || browser).tabs.create({//for firefox
-            url: searchText
+        let openT = (chrome || browser).tabs.create({
+            url: searchText,
+            index: sender.tab.index + 1,
+            windowId: sender.tab.windowId,
+            active: sender.tab.active
         });
-        (chrome || browser).tabs.remove(ocurTabId);
+        let closeT = (chrome || browser).tabs.remove(ocurTabId);
+        Promise.all([closeT, openT]);
         sendResponse({ status: 200 });
     });  

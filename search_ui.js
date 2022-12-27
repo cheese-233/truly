@@ -42,4 +42,35 @@ function DontHaveEngine() {
         }
     });
 }
+function NotForPhone() {
+    let userAgentInfo = navigator.userAgent;
+
+    let mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPod"];
+
+    //根据userAgent判断是否是手机
+    for (const element of mobileAgents) {
+        if (userAgentInfo.indexOf(element) > 0) {
+            document.getElementById("search-div").innerHTML += "<h3>请打开桌面版浏览。</h3>";
+            return true;
+        }
+    }
+    return false;
+}
+function addPageBtn(pageId, showText) {
+    if (showText == "1") {
+        let b = document.createElement("button");
+        b.className = "btn btn-link btn-sm";
+        b.id = "pagebtn";
+        b.type = "button";
+        b.innerHTML = "<h5>下一页</h5>";
+        document.getElementById("pages").parentNode.appendChild(b);
+        b.addEventListener("click", function () {
+            requestPagePlus();
+        });//Connect the Button
+    }
+    let a = document.createElement("a");
+    a.href = "#" + pageId;
+    a.innerText = showText;
+    document.getElementById("pages").appendChild(a);
+}
 SearchSug();

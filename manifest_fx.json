@@ -6,7 +6,7 @@
     "chrome_settings_overrides": {
         "search_provider": {
             "encoding": "UTF-8",
-            "favicon_url": "https://cheese-233.github.io/truly/favicon.ico",
+            "favicon_url": "favicon.ico",
             "is_default": true,
             "keyword": "cheese-233.github.io",
             "name": "truly",
@@ -14,8 +14,16 @@
         }
     },
     "homepage_url": "https://cheese-233.github.io/truly",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "truly@truly.pages.dev",
+            "strict_min_version": "109.0"
+        }
+    },
     "background": {
-        "service_worker": "background.js"
+        "scripts": [
+            "background.js"
+        ]
     },
     "icons": {
         "128": "favicon.ico"
