@@ -24,7 +24,19 @@
             }
 
             .card {
-                background-color: #212121;
+                background-color: #333;
+            }
+
+            .subInput {
+                color: var(--text-color);
+                background-color: #232323;
+                border-color: #232323;
+            }
+
+            .subInput:focus {
+                color: var(--text-color);
+                background-color: #323232;
+                border-color: #323232;
             }
         }
 
@@ -49,6 +61,11 @@
             top: 100%;
             z-index: -999;
             width: 100%;
+        }
+
+        .card {
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
         }
     </style>
 </head>
@@ -209,7 +226,7 @@
                                     </path>
                                 </svg>
                             </btn>
-                            <input type="text" class="form-control" id="submitText">
+                            <input type="text" class="form-control subInput" id="submitText">
                         </div>
                     </div>
                 </div>
@@ -273,6 +290,7 @@
                         <a href="https://github.com/lzwme/bootstrap-suggest-plugin">Bootstrap Search Suggest</a>(MIT
                         license)
                         <br><a href="https://github.com/twbs/bootstrap">Bootstrap</a>(MIT license)
+                        <br><a href="https://ghproxy.com/">Github Proxy</a>
                     </div>
                 </div>
                 <br>
