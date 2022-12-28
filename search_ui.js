@@ -50,7 +50,7 @@ function NotForPhone() {
     //根据userAgent判断是否是手机
     for (const element of mobileAgents) {
         if (userAgentInfo.indexOf(element) > 0) {
-            document.getElementById("search-div").innerHTML += "<h3>请打开桌面版浏览。</h3>";
+            document.getElementById("search-div").innerHTML += "<h3>请勾选桌面版模式。</h3>";
             return true;
         }
     }

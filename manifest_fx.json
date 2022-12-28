@@ -40,6 +40,9 @@
         "*://*.bing.com/*",
         "*://*.so.com/*"
     ],
+    "optional_permissions": [
+        "tabs"
+    ],
     "permissions": [
         "storage"
     ],

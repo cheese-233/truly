@@ -35,6 +35,9 @@
     "permissions": [
         "storage"
     ],
+    "optional_permissions": [
+        "tabs"
+    ],
     "content_scripts": [
         {
             "matches": [

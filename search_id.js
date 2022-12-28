@@ -7,9 +7,6 @@ if (window.location.pathname.indexOf("search.html") != -1) {
         return null;
     }
     var searchResult = getQueryString("q");
-    (chrome || browser).runtime.sendMessage({ Sresult: searchResult }, function (response) {
-        if (response) {
-
-        }
+    (chrome || browser).runtime.sendMessage({ Sresult: searchResult }, function () {
     });
 }
