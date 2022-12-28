@@ -1,29 +1,29 @@
 function getQueryString(name) {//get search Content
-    var r = window.location.search.split(name + "=")[1];
+    let r = window.location.search.split(name + "=")[1];
     if (r != undefined) {
         return decodeURIComponent(r.replace(/\+/g, " "));
     }
     return null;
 }
-var searchResult = getQueryString("q");
+let searchResult = getQueryString("q");
 if (searchResult == (null || "")) {
     window.location.href = "index.html";
 }
 document.title = searchResult + " - Truly";
 document.getElementsByClassName("search-input")[0].value = searchResult;
-baidu_site = undefined;
-google_site = undefined;
-bing_site = undefined;
-so_site = undefined;
-var Page = 0;
-OpenedSearchEngine = 0;
+let baidu_site = undefined;
+let google_site = undefined;
+let bing_site = undefined;
+let so_site = undefined;
+let Page = 0;
+let OpenedSearchEngine = 0;
 function requestPage(page) {
-    search_result_all = {};
-    var RequestState = 0;
+    let search_result_all = {};
+    let RequestState = 0;
     function formatTitle(El, Tag1) {
         try {
-            els = El.getElementsByTagName(Tag1);
-            for (var i = 0; i < els.length; i++) {
+            let els = El.getElementsByTagName(Tag1);
+            for (let i = 0; i < els.length; i++) {
                 els[i].outerHTML = els[i].innerHTML;
             }
         }
@@ -32,18 +32,18 @@ function requestPage(page) {
         }
     }
     function addPages() {
-        var la = document.createElement("label");
-        var pages = String(page + 1)
+        let la = document.createElement("label");
+        let pages = String(page + 1)
         la.id = "page" + pages;
         document.getElementById("search-div").appendChild(la);
         addPageBtn(la.id, pages);
     }
-    var AlreadyDelete = []; //去重
+    let AlreadyDelete = []; //去重
     function addDiv() {
         if (RequestState == OpenedSearchEngine) {
             LoadingAnimation(true);
             addPages();
-            for (var key in search_result_all) {
+            for (let key in search_result_all) {
                 if (AlreadyDelete.indexOf(key) == -1) {
                     document.getElementById("search-div").appendChild(search_result_all[key]);
                     AlreadyDelete.push(key);
@@ -55,32 +55,32 @@ function requestPage(page) {
         }
     }
     function reqListener() {
-        var div = document.createElement('div');
+        let div = document.createElement('div');
         div.innerHTML = this.responseText;
-        var a = div.getElementsByClassName("c-title");
-        for (var i = 0; i < a.length; i++) {
-            var baidu_div = a[i].parentElement;
-            var baidu_title = baidu_div.getElementsByTagName("h3")[0];
-            var baidu_texts = baidu_div.getElementsByTagName("em");
-            var baidu_text;
-            for (var i = 0; i < baidu_texts.length; i++) {
+        let a = div.getElementsByClassName("c-title");
+        for (let i = 0; i < a.length; i++) {
+            let baidu_div = a[i].parentElement;
+            let baidu_title = baidu_div.getElementsByTagName("h3")[0];
+            let baidu_texts = baidu_div.getElementsByTagName("em");
+            let baidu_text;
+            for (let i = 0; i < baidu_texts.length; i++) {
                 if (baidu_texts[i].parentElement.tagName == ("SPAN" || "DIV")) {
                     baidu_text = baidu_texts[i].parentElement;
                     break;
                 }
             }
-            var baidu_img = baidu_div.getElementsByTagName("img")[0];
-            var b_div = document.createElement('div');
-            var b_text_div = document.createElement('div');
-            var b_box_div = document.createElement('div');
+            let baidu_img = baidu_div.getElementsByTagName("img")[0];
+            let b_div = document.createElement('div');
+            let b_text_div = document.createElement('div');
+            let b_box_div = document.createElement('div');
             b_box_div.className = "row";
             try {
-                var Ele = baidu_title.getElementsByClassName("icon-official");
-                for (var i = 0; i < Ele.length; i++) {
+                let Ele = baidu_title.getElementsByClassName("icon-official");
+                for (let i = 0; i < Ele.length; i++) {
                     Ele[i].outerHTML = "";
                 }
                 Ele = baidu_title.getElementsByClassName("c-gap-left-small");
-                for (var i = 0; i < Ele.length; i++) {
+                for (let i = 0; i < Ele.length; i++) {
                     Ele[i].outerHTML = "";
                 }
             }
@@ -101,7 +101,7 @@ function requestPage(page) {
                 b_box_div.appendChild(baidu_img);
             }
             catch (err) {
-                var baidu_img_box = document.createElement('div');
+                let baidu_img_box = document.createElement('div');
                 baidu_img_box.className = "result_img";
                 b_box_div.appendChild(baidu_img_box);
                 console.log(err);
@@ -115,6 +115,7 @@ function requestPage(page) {
             }
             b_box_div.appendChild(b_text_div);
             try {
+                b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
             catch (err) {
@@ -137,31 +138,31 @@ function requestPage(page) {
     }
 
     function reqListenerG() {
-        var div = document.createElement('div');
+        let div = document.createElement('div');
         div.innerHTML = this.responseText;
-        var a = div.getElementsByTagName("h3");
-        for (var i = 0; i < a.length; i++) {
-            var google_div = a[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-            var google_title = google_div.getElementsByTagName("h3")[0].parentElement;
+        let a = div.getElementsByTagName("h3");
+        for (let i = 0; i < a.length; i++) {
+            let google_div = a[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+            let google_title = google_div.getElementsByTagName("h3")[0].parentElement;
             if (google_title.tagName != "A") {
                 continue;
             }
-            var google_texts = google_div.getElementsByTagName("em");
-            var google_text;
-            for (var i = 0; i < google_texts.length; i++) {
+            let google_texts = google_div.getElementsByTagName("em");
+            let google_text;
+            for (let i = 0; i < google_texts.length; i++) {
                 if (google_texts[i].parentElement.tagName == ("SPAN" || "DIV")) {
                     google_text = google_texts[i].parentElement;
                     break;
                 }
             }
-            var b_div = document.createElement('div');
-            var b_text_div = document.createElement('div');
-            var b_box_div = document.createElement('div');
-            var cites = google_div.getElementsByTagName("cite")
-            for (var c = 0; c < cites.length; c++) {
+            let b_div = document.createElement('div');
+            let b_text_div = document.createElement('div');
+            let b_box_div = document.createElement('div');
+            let cites = google_div.getElementsByTagName("cite")
+            for (let c = 0; c < cites.length; c++) {
                 cites[c].outerHTML = "";
             }
-            var google_img_box = document.createElement('div');
+            let google_img_box = document.createElement('div');
             google_img_box.className = "result_img";
             b_box_div.className = "row";
             b_box_div.appendChild(google_img_box);
@@ -181,6 +182,7 @@ function requestPage(page) {
             }
             b_box_div.appendChild(b_text_div);
             try {
+                b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
             catch (err) {
@@ -202,18 +204,18 @@ function requestPage(page) {
         }
     }
     function reqListenerB() {
-        var div = document.createElement('div');
+        let div = document.createElement('div');
         div.innerHTML = this.responseText;
-        var a = div.getElementsByClassName('b_algo');
-        for (var i = 0; i < a.length; i++) {
-            var bing_div = a[i];
+        let a = div.getElementsByClassName('b_algo');
+        for (let i = 0; i < a.length; i++) {
+            let bing_div = a[i];
             if (bing_div.getElementsByTagName("h2").length <= 0) {
                 continue;
             }
-            var bing_title = bing_div.getElementsByTagName("h2")[0];
-            var bing_texts = bing_div.getElementsByTagName("strong");
-            var bing_text = undefined;
-            for (var i = 0; i < bing_texts.length; i++) {
+            let bing_title = bing_div.getElementsByTagName("h2")[0];
+            let bing_texts = bing_div.getElementsByTagName("strong");
+            let bing_text = undefined;
+            for (let i = 0; i < bing_texts.length; i++) {
                 if (bing_texts[i].parentElement.tagName == ("P")) {
                     bing_text = bing_texts[i].parentElement;
                     break;
@@ -225,20 +227,20 @@ function requestPage(page) {
                 }
                 catch (e) { }
             }
-            var b_div = document.createElement('div');
-            var b_text_div = document.createElement('div');
-            var b_box_div = document.createElement('div');
-            var bing_img_box = document.createElement('div');
+            let b_div = document.createElement('div');
+            let b_text_div = document.createElement('div');
+            let b_box_div = document.createElement('div');
+            let bing_img_box = document.createElement('div');
             bing_img_box.className = "result_img";
             b_box_div.className = "row";
-            var bing_img = bing_div.getElementsByTagName("img")[0];
+            let bing_img = bing_div.getElementsByTagName("img")[0];
             try {
                 bing_img.className = "result_img";
                 bing_img.loading = "lazy";
                 b_box_div.appendChild(bing_img);
             }
             catch (err) {
-                var bing_img_box = document.createElement('div');
+                let bing_img_box = document.createElement('div');
                 bing_img_box.className = "result_img";
                 b_box_div.appendChild(bing_img_box);
                 console.log(err);
@@ -260,6 +262,7 @@ function requestPage(page) {
             }
             b_box_div.appendChild(b_text_div);
             try {
+                b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
             catch (err) {
@@ -281,22 +284,23 @@ function requestPage(page) {
         }
     }
     function reqListenerS() {
-        var div = document.createElement('div');
+        let div = document.createElement('div');
         div.innerHTML = this.responseText;
-        var a = div.getElementsByClassName("res-title");
-        for (var i = 0; i < a.length; i++) {
-            var so_div = a[i].parentElement;
-            var so_title = so_div.getElementsByTagName("h3")[0];
-            var so_img = so_div.getElementsByTagName("img")[0];
+        let a = div.getElementsByClassName("res-title");
+        for (let i = 0; i < a.length; i++) {
+            let so_div = a[i].parentElement;
+            let so_title = so_div.getElementsByTagName("h3")[0];
+            let so_img = so_div.getElementsByTagName("img")[0];
+            let so_text;
             if (so_img != undefined) {
-                var so_text = so_div.getElementsByClassName("res-comm-con")[0];
+                so_text = so_div.getElementsByClassName("res-comm-con")[0];
             }
             else {
-                var so_text = so_div.getElementsByClassName("res-desc")[0];
+                so_text = so_div.getElementsByClassName("res-desc")[0];
             }
             try {
-                var t = so_text.getElementsByTagName("a");
-                for (var i = 0; i < t.length; i++) {
+                let t = so_text.getElementsByTagName("a");
+                for (let i = 0; i < t.length; i++) {
                     t[i].outerHTML = "";
                 }
             }
@@ -309,13 +313,13 @@ function requestPage(page) {
             catch (e) {
 
             }
-            var b_div = document.createElement('div');
-            var b_text_div = document.createElement('div');
-            var b_box_div = document.createElement('div');
+            let b_div = document.createElement('div');
+            let b_text_div = document.createElement('div');
+            let b_box_div = document.createElement('div');
             b_box_div.className = "row";
             try {
-                var Ele = so_title.getElementsByClassName("icon-official");
-                for (var i = 0; i < Ele.length; i++) {
+                let Ele = so_title.getElementsByClassName("icon-official");
+                for (let i = 0; i < Ele.length; i++) {
                     Ele[i].outerHTML = "";
                 }
             }
@@ -336,7 +340,7 @@ function requestPage(page) {
                 b_box_div.appendChild(so_img);
             }
             catch (err) {
-                var so_img_box = document.createElement('div');
+                let so_img_box = document.createElement('div');
                 so_img_box.className = "result_img";
                 b_box_div.appendChild(so_img_box);
                 console.log(err);
@@ -350,7 +354,7 @@ function requestPage(page) {
             }
             b_box_div.appendChild(b_text_div);
             try {
-                for (var i in b_text_div.getElementsByClassName("g-linkinfo")) {
+                for (let i in b_text_div.getElementsByClassName("g-linkinfo")) {
                     i.outerHTML = "";
                 }
             }
@@ -358,6 +362,7 @@ function requestPage(page) {
                 console.log(err);
             }
             try {
+                b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
             catch (err) {
@@ -379,7 +384,7 @@ function requestPage(page) {
         }
     }
 }
-var isReadyRequest = true;
+let isReadyRequest = true;
 function requestPagePlus() {//Turn the page
     if (isReadyRequest) {
         isReadyRequest = false;
@@ -389,7 +394,7 @@ function requestPagePlus() {//Turn the page
     }
 }
 (chrome || browser).storage.local.get(function (result) {
-    var all = result['isSearchEngine'];
+    let all = result['isSearchEngine'];
     if (all == undefined) {
         DontHaveEngine();
         return;

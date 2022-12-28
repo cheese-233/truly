@@ -1,13 +1,13 @@
 function getDatas(keyword, $input, callback, options) {
-    var timer;
+    let timer;
     if (options.searchingTip) {
         timer = setTimeout(function () {
             $input.parent().find('ul').html('<div style="padding:10px 5px 5px">' + options.searchingTip + '</div>').show();
             ProcessAdjustDropMenuPos($input, $input.parent().find('ul'), options);
         }, 600);
     }
-    dataList = { value: [] };
-    var req = new XMLHttpRequest();
+    let dataList = { value: [] };
+    let req = new XMLHttpRequest();
     req.onprogress = function () {
         timer && clearTimeout(timer);
     }
@@ -15,9 +15,9 @@ function getDatas(keyword, $input, callback, options) {
     req.send();
     req.onreadystatechange = function () {
         if (req.readyState == XMLHttpRequest.DONE) {
-            var re = JSON.parse(this.responseText).g;
+            let re = JSON.parse(this.responseText).g;
             if (re != null) {
-                for (var r of re) {
+                for (let r of re) {
                     dataList.value.push({
                         word: r.q
                     });
@@ -47,7 +47,6 @@ function SearchSug(El = "#q") {
             '-moz-transition': '0.3s',
             '-o-transition': '0.3s'
         },
-        getDataMethod: "url",
         fnGetData: getDatas,
     });
 }

@@ -1,22 +1,23 @@
 function saveOptions(e) {
-    var b = document.getElementById("baidu").checked;
-    var g = document.getElementById("google").checked;
-    var bi = document.getElementById("bing").checked;
-    var so = document.getElementById("360").checked;
-    var fake = document.getElementById("fake").checked;
+    let b = document.getElementById("baidu").checked;
+    let g = document.getElementById("google").checked;
+    let bi = document.getElementById("bing").checked;
+    let so = document.getElementById("360").checked;
+    let fake = document.getElementById("fake").checked;
+    let fakeW;
     if (fake) {
-        var fakeWeb = document.getElementById("fakeWebsite").value;
-        var fakeWd = document.getElementById("fakeWd").value;
-        var fakeW = { "isEnable": true, "Website": fakeWeb, "wd": fakeWd };
+        let fakeWeb = document.getElementById("fakeWebsite").value;
+        let fakeWd = document.getElementById("fakeWd").value;
+        fakeW = { "isEnable": true, "Website": fakeWeb, "wd": fakeWd };
         (chrome || browser).storage.local.set({ "fake": fakeW }, function () {
         });
     }
     else {
-        var fakeW = { "isEnable": false };
+        fakeW = { "isEnable": false };
         (chrome || browser).storage.local.set({ "fake": fakeW }, function () {
         });
     }
-    var all = { "baidu": b, "google": g, "bing": bi, "360": so };
+    let all = { "baidu": b, "google": g, "bing": bi, "360": so };
     (chrome || browser).storage.local.set({ "isSearchEngine": all }, function () {
     });
     try {

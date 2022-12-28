@@ -64,4 +64,15 @@ function handleTab(ocurTabId, state, tab) {
         let closeT = (chrome || browser).tabs.remove(ocurTabId);
         Promise.all([closeT, openT]);
         sendResponse({ status: 200 });
-    });  
+    });
+function handleInstalled(reason) {
+    if (reason.reason == "install") {
+        try {
+            browser.runtime.openOptionsPage();//for firefox
+        } catch (err) {
+            chrome.runtime.openOptionsPage();//for chrome
+        }
+    }
+}
+
+(chrome || browser).runtime.onInstalled.addListener(handleInstalled);
