@@ -10,7 +10,7 @@
             "is_default": true,
             "keyword": "truly.eu.org",
             "name": "truly",
-            "search_url": "https://search.truly.eu.org/search?q={searchTerms}"
+            "search_url": "https://search.truly.eu.org/?q={searchTerms}"
         }
     },
     "homepage_url": "https://cheese-233.github.io/truly",

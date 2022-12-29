@@ -31,7 +31,7 @@ function handleNewRequestTab(Keyword, tab, ocurTabId) {
 }
 function handleTab(ocurTabId, state, tab) {
     if (state["status"] == "loading") {
-        if (tab.url.indexOf("https://search.truly.eu.org/search") == 0) {
+        if (tab.url.indexOf("https://search.truly.eu.org/") == 0) {
             handleNewRequestTab("q", tab, ocurTabId);
             return;
         }
