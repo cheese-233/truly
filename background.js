@@ -18,8 +18,23 @@ function openSearch(text) {
 (chrome || browser).omnibox.onInputEntered.addListener((text, disposition) => {//for chrome
     openSearch(text);
 });
+function handleNewRequestTab(Keyword, tab, ocurTabId) {
+    let reg = new RegExp(Keyword + "=([^&]*)(&|$)", "i");
+    let searchText = "search.html?q=" + tab.url.match(reg)[1];
+    (chrome || browser).tabs.create({
+        url: searchText,
+        index: tab.index + 1,
+        windowId: tab.windowId,
+        active: tab.active
+    });
+    (chrome || browser).tabs.remove(ocurTabId);
+}
 function handleTab(ocurTabId, state, tab) {
     if (state["status"] == "loading") {
+        if (tab.url.indexOf("https://search.truly.eu.org/search") == 0) {
+            handleNewRequestTab("q", tab, ocurTabId);
+            return;
+        }
         (chrome || browser).storage.local.get(function (result) {
             if (result['fake'] == null) {
                 return;
@@ -29,15 +44,7 @@ function handleTab(ocurTabId, state, tab) {
                     return;
                 }
                 if (tab.url.indexOf(result['fake']["Website"]) == 0) {
-                    let reg = new RegExp("(^|&)" + result['fake']["wd"] + "=([^&]*)(&|$)", "i");
-                    let searchText = "search.html?q=" + tab.url.match(reg)[2];
-                    (chrome || browser).tabs.create({
-                        url: searchText,
-                        index: tab.index + 1,
-                        windowId: tab.windowId,
-                        active: tab.active
-                    });
-                    (chrome || browser).tabs.remove(ocurTabId);
+                    handleNewRequestTab(result['fake']["wd"], tab, ocurTabId);
                 }
             }
         });

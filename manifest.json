@@ -8,9 +8,9 @@
             "encoding": "UTF-8",
             "favicon_url": "https://cheese-233.github.io/truly/favicon.ico",
             "is_default": true,
-            "keyword": "cheese-233.github.io",
+            "keyword": "truly.eu.org",
             "name": "truly",
-            "search_url": "https://cheese-233.github.io/truly/search.html?q={searchTerms}"
+            "search_url": "https://search.truly.eu.org/search?q={searchTerms}"
         }
     },
     "homepage_url": "https://cheese-233.github.io/truly",
@@ -33,21 +33,8 @@
         "*://*.so.com/*"
     ],
     "permissions": [
-        "storage"
-    ],
-    "optional_permissions": [
+        "storage",
         "tabs"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "*://cheese-233.github.io/truly/*"
-            ],
-            "js": [
-                "search_id.js"
-            ],
-            "run_at": "document_start"
-        }
     ],
     "omnibox": {
         "keyword": "truly"
