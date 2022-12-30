@@ -17,6 +17,24 @@ let bing_site = undefined;
 let so_site = undefined;
 let Page = 0;
 let OpenedSearchEngine = 0;
+const quickSort = function (arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    let pivotIndex = Math.floor(arr.length / 2);
+    let pivot = arr.splice(pivotIndex, 1)[0];
+    let left = [];
+    let right = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][1] < pivot[1]) {
+            left.push(arr[i]);
+        } else {
+            right.push(arr[i]);
+        }
+    }
+    return quickSort(left).concat([pivot], quickSort(right));
+};
 function requestPage(page) {
     let search_result_all = {};
     let RequestState = 0;
@@ -38,16 +56,35 @@ function requestPage(page) {
         document.getElementById("search-div").appendChild(la);
         addPageBtn(la.id, pages);
     }
+    function HandleError(e, engineText) {
+        try {
+            LoadingAnimation(true);
+        }
+        catch {
+
+        }
+        if (e == null || e.statusText == "") {
+            document.getElementById("search-div").innerHTML += "<h4>" + engineText + "加载失败 </h4>";
+        }
+        else {
+            document.getElementById("search-div").innerHTML += "<h4>" + engineText + "加载失败 错误：" + String(e.statusText) + "</h4>";
+        }
+    }
     let AlreadyDelete = []; //去重
     function addDiv() {
         if (RequestState == OpenedSearchEngine) {
             LoadingAnimation(true);
             addPages();
+            let tempKeys = [];
             for (let key in search_result_all) {
-                if (AlreadyDelete.indexOf(key) == -1) {
-                    document.getElementById("search-div").appendChild(search_result_all[key]);
-                    AlreadyDelete.push(key);
-                    delete search_result_all[key];
+                tempKeys.push(search_result_all[key]);
+            }
+            tempKeys = quickSort(tempKeys);
+            for (let i in tempKeys) {
+                if (AlreadyDelete.indexOf(tempKeys[i]) == -1) {
+                    document.getElementById("search-div").appendChild(tempKeys[i][0]);
+                    AlreadyDelete.push(tempKeys[i]);
+                    delete tempKeys[i];
                     document.getElementById("search-div").innerHTML += "<br>";
                 }
             }
@@ -84,44 +121,39 @@ function requestPage(page) {
                     Ele[i].outerHTML = "";
                 }
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 baidu_title.className = "result_title";
                 formatTitle(baidu_title, "em");
                 b_text_div.appendChild(baidu_title);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 baidu_img.className = "result_img";
                 baidu_img.loading = "lazy";
                 b_box_div.appendChild(baidu_img);
             }
-            catch (err) {
+            catch {
                 let baidu_img_box = document.createElement('div');
                 baidu_img_box.className = "result_img";
                 b_box_div.appendChild(baidu_img_box);
-                console.log(err);
             }
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(baidu_text);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             b_box_div.appendChild(b_text_div);
             try {
                 b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
-            search_result_all[baidu_title.innerText] = b_div;
+            search_result_all[baidu_title.innerText] = [b_div, i];
         }
         addDiv();
     }
@@ -131,8 +163,11 @@ function requestPage(page) {
         req.open("GET", baidu_site + "&pn=" + page * 10);//Baidu's search results
         req.send();
         req.onreadystatechange = function () {
-            if (req.readyState == XMLHttpRequest.DONE) {
+            if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
                 RequestState++;
+            }
+            else if (req.readyState == XMLHttpRequest.DONE) {
+                HandleError(req, "百度");
             }
         }
     }
@@ -170,25 +205,23 @@ function requestPage(page) {
                 google_title.className = "result_title";
                 b_text_div.appendChild(google_title);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(google_text);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             b_box_div.appendChild(b_text_div);
             try {
                 b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
-            catch (err) {
-                console.log(err);
+            catch {
+
             }
-            search_result_all[google_title.innerText] = b_div;
+            search_result_all[google_title.innerText] = [b_div, i];
         }
         addDiv();
     }
@@ -198,8 +231,11 @@ function requestPage(page) {
         reqG.open("GET", google_site + "&start=" + page * 10);//Google's search results
         reqG.send();
         reqG.onreadystatechange = function () {
-            if (reqG.readyState == XMLHttpRequest.DONE) {
+            if (reqG.readyState == XMLHttpRequest.DONE && reqG.status == 200) {
                 RequestState++;
+            }
+            else if (reqG.readyState == XMLHttpRequest.DONE) {
+                HandleError(reqG, "谷歌");
             }
         }
     }
@@ -239,36 +275,32 @@ function requestPage(page) {
                 bing_img.loading = "lazy";
                 b_box_div.appendChild(bing_img);
             }
-            catch (err) {
+            catch {
                 let bing_img_box = document.createElement('div');
                 bing_img_box.className = "result_img";
                 b_box_div.appendChild(bing_img_box);
-                console.log(err);
             }
             try {
                 bing_title.className = "result_title";
                 formatTitle(bing_title, "strong");
                 b_text_div.appendChild(bing_title);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(bing_text);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             b_box_div.appendChild(b_text_div);
             try {
                 b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
-            search_result_all[bing_title.innerText] = b_div;
+            search_result_all[bing_title.innerText] = [b_div, i];
         }
         addDiv();
     }
@@ -278,8 +310,11 @@ function requestPage(page) {
         reqB.open("GET", bing_site + "&first=" + (page * 10 + 1));//Bing's search results
         reqB.send();
         reqB.onreadystatechange = function () {
-            if (reqB.readyState == XMLHttpRequest.DONE) {
-                RequestState++
+            if (reqB.readyState == XMLHttpRequest.DONE && reqB.status == 200) {
+                RequestState++;
+            }
+            else if (reqB.readyState == XMLHttpRequest.DONE) {
+                HandleError(reqB, "必应");
             }
         }
     }
@@ -304,13 +339,12 @@ function requestPage(page) {
                     t[i].outerHTML = "";
                 }
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 so_img.src = so_img.outerHTML.split("data-isrc=\"")[1].split("\"")[0];
             }
-            catch (e) {
+            catch {
 
             }
             let b_div = document.createElement('div');
@@ -323,34 +357,30 @@ function requestPage(page) {
                     Ele[i].outerHTML = "";
                 }
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 so_title.className = "result_title";
                 formatTitle(so_title, "em");
                 b_text_div.appendChild(so_title);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 so_img.className = "result_img";
                 so_img.loading = "lazy";
                 b_box_div.appendChild(so_img);
             }
-            catch (err) {
+            catch {
                 let so_img_box = document.createElement('div');
                 so_img_box.className = "result_img";
                 b_box_div.appendChild(so_img_box);
-                console.log(err);
             }
             try {
                 b_text_div.className = "result_text_box";
                 b_text_div.appendChild(so_text);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             b_box_div.appendChild(b_text_div);
             try {
@@ -358,17 +388,15 @@ function requestPage(page) {
                     i.outerHTML = "";
                 }
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
             try {
                 b_div.className = "result_div";
                 b_div.appendChild(b_box_div);
             }
-            catch (err) {
-                console.log(err);
+            catch {
             }
-            search_result_all[so_title.innerText] = b_div;
+            search_result_all[so_title.innerText] = [b_div, i];
         }
         addDiv();
     }
@@ -378,8 +406,11 @@ function requestPage(page) {
         reqS.open("GET", so_site + "&pn=" + (page + 1));//360's search results
         reqS.send();
         reqS.onreadystatechange = function () {
-            if (reqS.readyState == XMLHttpRequest.DONE) {
+            if (reqS.readyState == XMLHttpRequest.DONE && reqS.status == 200) {
                 RequestState++;
+            }
+            else if (reqS.readyState == XMLHttpRequest.DONE) {
+                HandleError(reqS, "360");
             }
         }
     }
