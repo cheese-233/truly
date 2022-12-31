@@ -50,23 +50,3 @@ function handleTab(ocurTabId, state, tab) {
 }
 
 browser.tabs.onUpdated.addListener(handleTab);
-
-browser.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        let ocurTabId = sender.tab.id;
-        let searchText;
-        if (request.Sresult) {
-            searchText = "search.html?q=" + request.Sresult;
-        } else {
-            searchText = "index.html";
-        }
-        let openT = browser.tabs.create({
-            url: searchText,
-            index: sender.tab.index + 1,
-            windowId: sender.tab.windowId,
-            active: sender.tab.active
-        });
-        let closeT = browser.tabs.remove(ocurTabId);
-        Promise.all([closeT, openT]);
-        sendResponse({ status: 200 });
-    });

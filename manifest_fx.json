@@ -17,7 +17,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "truly@truly.pages.dev",
-            "strict_min_version": "109.0"
+            "strict_min_version": "108.0"
         }
     },
     "background": {

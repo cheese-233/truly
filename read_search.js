@@ -35,7 +35,7 @@ const quickSort = function (arr) {
     }
     return quickSort(left).concat([pivot], quickSort(right));
 };
-function formatTitle(El, Tag1) {
+async function formatTitle(El, Tag1) {
     let els = El.getElementsByTagName(Tag1);
     while (els.length != 0) {
         for (let i = 0; i < els.length; i++) {

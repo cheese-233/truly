@@ -25,7 +25,7 @@ const handleScrollAnimation = () => {
     }
 
 }
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', function () {
     handleScrollAnimation()
 })
 function LoadingAnimation(isDelete = false) {
@@ -47,7 +47,7 @@ function NotForPhone() {
 
     let mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPod"];
 
-    //根据userAgent判断是否是手机
+    //Detect phone and Alert User
     for (const element of mobileAgents) {
         if (userAgentInfo.indexOf(element) > 0) {
             document.getElementById("search-div").innerHTML += "<h3>请勾选桌面版模式。</h3>";
@@ -62,7 +62,7 @@ function addPageBtn(pageId, showText) {
         b.className = "btn btn-link btn-sm";
         b.id = "pagebtn";
         b.type = "button";
-        b.innerHTML = "<h5><svg xmlns='http://www.w3.org/2000/svg' width='1.5rem' height='1.5rem' fill='currentColor' class='bi bi-chevron-bar-right'viewBox='0 0 16 16'><path fill-rule='evenodd' d='M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z' /></svg></h5>";
+        b.innerHTML = "<h5><svg xmlns='http://www.w3.org/2000/svg' style='width:1.5rem;height:1.5rem;' fill='currentColor' class='bi bi-chevron-bar-right'viewBox='0 0 16 16'><path fill-rule='evenodd' d='M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z' /></svg></h5>";
         document.getElementById("pages").parentNode.appendChild(b);
         b.addEventListener("click", function () {
             requestPagePlus();
