@@ -42,11 +42,9 @@ function SearchSug(El = "#q") {
             'overflow': 'auto',
             'width': 'auto',
             'height': "auto",
-            'transition': '0.3s',
-            '-webkit-transition': '0.3s',
-            '-moz-transition': '0.3s',
-            '-o-transition': '0.3s'
+            'cursor': 'pointer'
         },
+        listHoverStyle: 'color: var(--link-color);',
         fnGetData: getDatas,
     });
 }

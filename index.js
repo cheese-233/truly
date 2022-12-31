@@ -13,10 +13,10 @@ document.getElementById("q").addEventListener("submit", function () {
 });
 SearchSug().on('onShowDropdown', function () {
     document.getElementById('submitBtn').style = "border-radius:0px;border-top-left-radius:25px;";
-    document.getElementById('dropdownBtn').style = "border-radius:0px;border-top-right-radius:25px;";
+    document.getElementById('q').style = "border-radius:0px !important;border-top-right-radius:25px !important;";
 }).on('onHideDropdown', function () {
     document.getElementById('submitBtn').style = "";
-    document.getElementById('dropdownBtn').style = "";
+    document.getElementById('q').style = "";
 });
 chrome.storage.local.get(function (result) {
     try {

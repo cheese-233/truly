@@ -53,7 +53,7 @@ function restoreOptions() {
 
         }
     });
-    if (!document.getElementById("fake").checked) {
+    if (document.getElementById("fake").checked) {
         document.getElementById("fakeWebsite").disabled = false;
         document.getElementById("fakeWd").disabled = false;
     }
