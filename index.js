@@ -48,3 +48,28 @@ SearchSug().on('onShowDropdown', function () {
     }
     catch { }
 });
+async function requestPermission() {
+    let RequestWebPermission = {
+        origins: [
+            "*://*.baidu.com/*",
+            "*://*.google.com/*",
+            "*://*.bing.com/*",
+            "*://*.so.com/*"
+        ]
+    }
+    const isPermission = await (chrome || browser).permissions.contains(RequestWebPermission);
+    console.log(isPermission)
+    if (!isPermission) {
+        document.body.addEventListener("click", function () {
+            (chrome || browser).permissions.request(RequestWebPermission).then(function (value) {
+                if (value == false) {
+                    alert("请允许权限！");
+                }
+                else {
+                    location.reload();
+                }
+            })
+        });
+    }
+}
+requestPermission();

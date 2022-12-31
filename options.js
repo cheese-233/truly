@@ -1,4 +1,4 @@
-function saveOptions(e) {
+function saveOptions() {
     let b = document.getElementById("baidu").checked;
     let g = document.getElementById("google").checked;
     let bi = document.getElementById("bing").checked;
