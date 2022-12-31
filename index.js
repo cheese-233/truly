@@ -18,7 +18,7 @@ SearchSug().on('onShowDropdown', function () {
     document.getElementById('submitBtn').style = "";
     document.getElementById('dropdownBtn').style = "";
 });
-(chrome || browser).storage.local.get(function (result) {
+chrome.storage.local.get(function (result) {
     try {
         bg = result["background"];
         const addNewStyle = function (newStyle) {
@@ -57,11 +57,11 @@ async function requestPermission() {
             "*://*.so.com/*"
         ]
     }
-    const isPermission = await (chrome || browser).permissions.contains(RequestWebPermission);
+    const isPermission = await browser.permissions.contains(RequestWebPermission);
     console.log(isPermission)
     if (!isPermission) {
         document.body.addEventListener("click", function () {
-            (chrome || browser).permissions.request(RequestWebPermission).then(function (value) {
+            browser.permissions.request(RequestWebPermission).then(function (value) {
                 if (value == false) {
                     alert("请允许权限！");
                 }

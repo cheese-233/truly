@@ -11,16 +11,16 @@ function saveOptions() {
     if (document.getElementById("bg1").checked) { bg = 1; } else if (document.getElementById("bg2").checked) { bg = 2 }
     if (fake && (fakeWeb || fakeWd) != "") {
         fakeW = { "isEnable": true, "Website": fakeWeb, "wd": fakeWd };
-        (chrome || browser).storage.local.set({ "fake": fakeW }, function () {
+        chrome.storage.local.set({ "fake": fakeW }, function () {
         });
     }
     else {
         fakeW = { "isEnable": false };
-        (chrome || browser).storage.local.set({ "fake": fakeW }, function () {
+        chrome.storage.local.set({ "fake": fakeW }, function () {
         });
     }
     let all = { "baidu": b, "google": g, "bing": bi, "360": so };
-    (chrome || browser).storage.local.set({ "isSearchEngine": all, "background": bg }, function () {
+    chrome.storage.local.set({ "isSearchEngine": all, "background": bg }, function () {
     });
     try {
         window.close();
@@ -32,7 +32,7 @@ function saveOptions() {
 
 
 function restoreOptions() {
-    (chrome || browser).storage.local.get(function (result) {
+    chrome.storage.local.get(function (result) {
         try {
             let all = result['isSearchEngine'];
             document.getElementById("baidu").checked = all["baidu"];

@@ -421,7 +421,7 @@ function requestPagePlus() {//Turn the page
         Page++;
     }
 }
-(chrome || browser).storage.local.get(function (result) {
+chrome.storage.local.get(function (result) {
     let all = result['isSearchEngine'];
     if (all == undefined) {
         DontHaveEngine();
