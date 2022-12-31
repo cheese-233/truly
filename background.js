@@ -30,8 +30,8 @@ function handleNewRequestTab(Keyword, tab, ocurTabId) {
     (chrome || browser).tabs.remove(ocurTabId);
 }
 function handleTab(ocurTabId, state, tab) {
-    if (state["status"] == "loading") {
-        if (tab.url.indexOf("https://search.truly.eu.org/") == 0) {
+    if (state["url"] != null) {
+        if (state["url"].indexOf("https://search.truly.eu.org/") == 0) {
             handleNewRequestTab("q", tab, ocurTabId);
             return;
         }
@@ -40,10 +40,7 @@ function handleTab(ocurTabId, state, tab) {
                 return;
             }
             if (result['fake']['isEnable']) {
-                if (tab.url == null) {
-                    return;
-                }
-                if (tab.url.indexOf(result['fake']["Website"]) == 0) {
+                if (state["url"].indexOf(result['fake']["Website"]) == 0) {
                     handleNewRequestTab(result['fake']["wd"], tab, ocurTabId);
                 }
             }
@@ -72,14 +69,3 @@ function handleTab(ocurTabId, state, tab) {
         Promise.all([closeT, openT]);
         sendResponse({ status: 200 });
     });
-function handleInstalled(reason) {
-    if (reason.reason == "install") {
-        try {
-            browser.runtime.openOptionsPage();//for firefox
-        } catch (err) {
-            chrome.runtime.openOptionsPage();//for chrome
-        }
-    }
-}
-
-(chrome || browser).runtime.onInstalled.addListener(handleInstalled);

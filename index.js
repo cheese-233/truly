@@ -1,7 +1,7 @@
 document.getElementById("setting_nav").addEventListener("click", function () {
     try {
         browser.runtime.openOptionsPage();//for firefox
-    } catch (err) {
+    } catch {
         chrome.runtime.openOptionsPage();//for chrome
     }
 });
@@ -17,4 +17,34 @@ SearchSug().on('onShowDropdown', function () {
 }).on('onHideDropdown', function () {
     document.getElementById('submitBtn').style = "";
     document.getElementById('dropdownBtn').style = "";
+});
+(chrome || browser).storage.local.get(function (result) {
+    try {
+        bg = result["background"];
+        const addNewStyle = function (newStyle) {
+            var styleElement = document.getElementById('styles_js');
+
+            if (!styleElement) {
+                styleElement = document.createElement('style');
+                styleElement.type = 'text/css';
+                styleElement.id = 'styles_js';
+                document.getElementsByTagName('head')[0].appendChild(styleElement);
+            }
+
+            styleElement.appendChild(document.createTextNode(newStyle));
+        }
+        if (bg == 1) {
+            addNewStyle('.bg-div {' +
+                '   background-image: url("bg.svg");' +
+                '   background-repeat: repeat;' +
+                '}');
+        }
+        else if (bg == 2) {
+            addNewStyle('.bg-div {' +
+                '   background: transparent;' +
+                '   background-repeat: no-repeat;' +
+                '}');
+        }
+    }
+    catch { }
 });

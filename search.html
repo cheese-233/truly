@@ -21,6 +21,12 @@
         backdrop-filter: blur(20px);
     }
 
+    .result_title a {
+        color: #000;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
     @media (prefers-color-scheme: dark) {
         :root {
             --mainColor: #212121;
@@ -48,6 +54,10 @@
         .loadingThree {
             filter: invert(100%);
         }
+
+        .result_title a {
+            color: #fff;
+        }
     }
 
     body {
@@ -68,29 +78,46 @@
         font-size: 1.5em;
     }
 
+
+    .result_title a:hover {
+        color: var(--link-color);
+    }
+
     .result_text_box {
         margin-left: 1rem;
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 768px) {
         .result_text_box {
-            max-width: calc(100% - 128px - 20%);
+            max-width: calc(100% - 128px - 35%);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .result_text_box {
+            max-width: calc(100% - 128px);
         }
     }
 
     @media (max-width: 576px) {
         .result_text_box {
-            max-width: calc(100% - 128px);
+            max-width: 100%;
+        }
+
+        .result_img {
+            display: none;
         }
     }
 
     .result_img {
         width: 128px;
         height: 85px;
+        border-radius: 0.5rem;
     }
 
     .result_div {
         padding: 0.5rem;
+        padding-top: 1rem;
     }
 
     .search-div {
@@ -155,6 +182,11 @@
 
     .pages-control a {
         padding: 0.5rem;
+        text-decoration: none;
+    }
+
+    label-none {
+        display: none;
     }
 </style>
 
@@ -174,7 +206,7 @@
         </form>
     </nav>
 
-    <div id="search-div" class="container-sm search-div">
+    <div id="search-div" class="container-fluid search-div">
     </div>
     <br>
     <div style="margin: 1rem;">

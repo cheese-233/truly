@@ -35,22 +35,20 @@ const quickSort = function (arr) {
     }
     return quickSort(left).concat([pivot], quickSort(right));
 };
+function formatTitle(El, Tag1) {
+    let els = El.getElementsByTagName(Tag1);
+    while (els.length != 0) {
+        for (let i = 0; i < els.length; i++) {
+            els[i].outerHTML = els[i].innerHTML;
+        }
+        els = El.getElementsByTagName(Tag1);
+    }
+}
 function requestPage(page) {
     let search_result_all = {};
     let RequestState = 0;
-    function formatTitle(El, Tag1) {
-        try {
-            let els = El.getElementsByTagName(Tag1);
-            for (let i = 0; i < els.length; i++) {
-                els[i].outerHTML = els[i].innerHTML;
-            }
-        }
-        catch (e) {
-
-        }
-    }
     function addPages() {
-        let la = document.createElement("label");
+        let la = document.createElement("label-none");
         let pages = String(page + 1)
         la.id = "page" + pages;
         document.getElementById("search-div").appendChild(la);
@@ -85,7 +83,6 @@ function requestPage(page) {
                     document.getElementById("search-div").appendChild(tempKeys[i][0]);
                     AlreadyDelete.push(tempKeys[i]);
                     delete tempKeys[i];
-                    document.getElementById("search-div").innerHTML += "<br>";
                 }
             }
             isReadyRequest = true;

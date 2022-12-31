@@ -45,7 +45,7 @@
 
 <body>
     <div class="container" style="padding-bottom:1rem;">
-        <form>
+        <form action="" method="post">
             选择使用的搜索引擎<br>
             <div class="form-check">
                 <input type="checkbox" id="baidu" name="baidu" class="form-check-input" />
@@ -73,6 +73,16 @@
                     aria-describedby="basic-addon1" disabled>
                 <input type="text" class="form-control bg-light WebsiteText" placeholder="关键字" id="fakeWd"
                     aria-describedby="basic-addon1" disabled>
+            </div>
+            <p><br></p>
+            自定义主页<br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-light active">
+                    <input type="radio" name="bg" id="bg1" checked> 文字背景
+                </label>
+                <label class="btn btn-light">
+                    <input type="radio" name="bg" id="bg2"> 空白
+                </label>
             </div>
             <p><br></p>
             <input type="submit" value="提交" class="btn btn-primary" />

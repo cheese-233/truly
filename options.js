@@ -5,9 +5,11 @@ function saveOptions(e) {
     let so = document.getElementById("360").checked;
     let fake = document.getElementById("fake").checked;
     let fakeW;
-    if (fake) {
-        let fakeWeb = document.getElementById("fakeWebsite").value;
-        let fakeWd = document.getElementById("fakeWd").value;
+    let fakeWeb = document.getElementById("fakeWebsite").value;
+    let fakeWd = document.getElementById("fakeWd").value;
+    let bg;
+    if (document.getElementById("bg1").checked) { bg = 1; } else if (document.getElementById("bg2").checked) { bg = 2 }
+    if (fake && (fakeWeb || fakeWd) != "") {
         fakeW = { "isEnable": true, "Website": fakeWeb, "wd": fakeWd };
         (chrome || browser).storage.local.set({ "fake": fakeW }, function () {
         });
@@ -18,7 +20,7 @@ function saveOptions(e) {
         });
     }
     let all = { "baidu": b, "google": g, "bing": bi, "360": so };
-    (chrome || browser).storage.local.set({ "isSearchEngine": all }, function () {
+    (chrome || browser).storage.local.set({ "isSearchEngine": all, "background": bg }, function () {
     });
     try {
         window.close();
@@ -43,6 +45,9 @@ function restoreOptions() {
                 document.getElementById("fakeWebsite").value = fake["Website"];
                 document.getElementById("fakeWd").value = fake["wd"];
             }
+            let bg = result["background"];
+            console.log(bg);
+            if (bg == 1) { document.getElementById("bg1").click(); } else if (bg == 2) { document.getElementById("bg2").click(); }
         }
         catch {
 
