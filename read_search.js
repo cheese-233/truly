@@ -176,6 +176,7 @@ function requestPage(page) {
         for (let i = 0; i < a.length; i++) {
             let google_div = a[i].parentElement.parentElement.parentElement.parentElement.parentElement;
             let google_title = google_div.getElementsByTagName("h3")[0].parentElement;
+            let b_title = document.createElement("h3");
             if (google_title.tagName != "A") {
                 continue;
             }
@@ -199,8 +200,15 @@ function requestPage(page) {
             b_box_div.className = "row";
             b_box_div.appendChild(google_img_box);
             try {
-                google_title.className = "result_title";
-                b_text_div.appendChild(google_title);
+                formatTitle(google_title, "br");
+                formatTitle(google_title, "h3");
+            }
+            catch {
+            }
+            try {
+                b_title.appendChild(google_title);
+                b_title.className = "result_title";
+                b_text_div.appendChild(b_title);
             }
             catch {
             }

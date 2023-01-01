@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "truly search",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Truly search engine.",
     "chrome_settings_overrides": {
         "search_provider": {

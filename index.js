@@ -58,7 +58,6 @@ async function requestPermission() {
         ]
     }
     const isPermission = await browser.permissions.contains(RequestWebPermission);
-    console.log(isPermission)
     if (!isPermission) {
         document.body.addEventListener("click", function () {
             browser.permissions.request(RequestWebPermission).then(function (value) {
