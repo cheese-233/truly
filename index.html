@@ -172,14 +172,14 @@
                                 Windows:
                                 <br>1.edge浏览器：下载<a href="msedge.adm" download="msedge.adm">Microsoft Edge 策略模板文件</a>
                                 <br>chrome浏览器：下载<a href="chrome.adm" download="chrome.adm">Google Chrome 策略模板文件</a>
-                                <br>2.Win+R，输入<code>gpedit.msc</code>，依次展开软件设置--Windows
+                                <br>2.<kbd>Win</kbd>+<kbd>R</kbd>,输入<code>gpedit.msc</code>，依次展开软件设置--Windows
                                 设置--管理模板，右键管理模板，选择“添加删除模板"，添加chrome.adm或msedge.adm。
                                 <br>3.展开经典管理模板--Google--Google Chrome（Microsoft
                                 Edge）--扩展程序（扩展），选择“允许安装特定扩展（配置扩展程序安装许可名单）”，双击打开，选择“已启用”。
                                 <br>4.点击下方的显示，输入扩展的ID。
-                                <br>5.下载crx文件
+                                <br>5.下载crx文件（右键--另存为）
                                 <br>6.浏览器打开：chrome://extensions/
-                                <br>7.拖拽crx文件到浏览器窗口，完成安装
+                                <br>7.拖拽crx文件到浏览器窗口，完成安装。
                             </details>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                                 function CopySubmit() {
                                     var content = document.getElementById('submitText');
                                     var c = content.value;
-                                    content.value = "https://cheese-233.github.io/truly/search.html?q=" + c;
+                                    content.value = "https://search.truly.eu.org/?q=" + c;
                                     content.select();
                                     document.execCommand('copy');
                                     content.value = c;
@@ -259,7 +259,7 @@
                             </svg>
                             <h3>接口</h3>
                         </div>
-                        搜索功能：<code>https://cheese-233.github.io/truly/search.html?q=%s</code>，其中<code>%s</code>为要搜索的内容。
+                        搜索功能：<code>https://search.truly.eu.org/?q=%s</code>，其中<code>%s</code>为要搜索的内容。
                     </div>
                 </div>
                 <div class="card">
