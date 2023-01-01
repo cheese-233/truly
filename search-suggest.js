@@ -42,7 +42,8 @@ function SearchSug(El = "#q") {
             'overflow': 'auto',
             'width': 'auto',
             'height': "auto",
-            'cursor': 'pointer'
+            'cursor': 'pointer',
+            'scrollbar-width': 'thin'
         },
         listHoverStyle: 'color: var(--link-color);',
         fnGetData: getDatas,

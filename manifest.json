@@ -6,14 +6,14 @@
     "chrome_settings_overrides": {
         "search_provider": {
             "encoding": "UTF-8",
-            "favicon_url": "https://cheese-233.github.io/truly/favicon.ico",
+            "favicon_url": "https://truly.eu.org/favicon.ico",
             "is_default": true,
             "keyword": "truly.eu.org",
             "name": "truly",
             "search_url": "https://search.truly.eu.org/?q={searchTerms}"
         }
     },
-    "homepage_url": "https://cheese-233.github.io/truly",
+    "homepage_url": "https://truly.eu.org",
     "background": {
         "service_worker": "background.js"
     },

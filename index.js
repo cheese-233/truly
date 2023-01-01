@@ -1,9 +1,5 @@
 document.getElementById("setting_nav").addEventListener("click", function () {
-    try {
-        browser.runtime.openOptionsPage();//for firefox
-    } catch {
-        chrome.runtime.openOptionsPage();//for chrome
-    }
+    browser.runtime.openOptionsPage();
 });
 document.getElementById("submitBtn").addEventListener("click", function () {
     document.getElementsByTagName("form")[0].submit();
@@ -21,7 +17,7 @@ SearchSug().on('onShowDropdown', function () {
 chrome.storage.local.get(function (result) {
     try {
         bg = result["background"];
-        const addNewStyle = function (newStyle) {
+        const addNewStyle = async function (newStyle) {
             var styleElement = document.getElementById('styles_js');
 
             if (!styleElement) {

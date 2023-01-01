@@ -46,7 +46,7 @@
 
 <body>
     <div class="container" style="padding-bottom:1rem;">
-        <form action="" method="post">
+        <form action="" method="post" target="myIframe">
             选择使用的搜索引擎<br>
             <div class="form-check">
                 <input type="checkbox" id="baidu" name="baidu" class="form-check-input" />
@@ -89,11 +89,12 @@
             <input type="submit" value="提交" class="btn btn-primary" />
         </form>
     </div>
+    <iframe id="myIframe" name="myIframe" class="iframes" style="display:none"></iframe>
 </body>
 <script src="autoDarkMode (doge.js" async></script>
 <script src="frame/jquery.slim.min.js"></script>
 <script src="frame/popper.min.js"></script>
 <script src="frame/bootstrap.min.js"></script>
-<script src="options.js"></script>
+<script src="options.js" defer></script>
 
 </html>

@@ -46,7 +46,6 @@ function restoreOptions() {
                 document.getElementById("fakeWd").value = fake["wd"];
             }
             let bg = result["background"];
-            console.log(bg);
             if (bg == 1) { document.getElementById("bg1").click(); } else if (bg == 2) { document.getElementById("bg2").click(); }
         }
         catch {

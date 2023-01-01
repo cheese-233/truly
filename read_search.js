@@ -10,14 +10,14 @@ if (searchResult == (null || "")) {
     window.location.href = "index.html";
 }
 document.title = searchResult + " - Truly";
-document.getElementsByClassName("search-input")[0].value = searchResult;
+document.getElementById("q").value = searchResult;
 let baidu_site = undefined;
 let google_site = undefined;
 let bing_site = undefined;
 let so_site = undefined;
 let Page = 0;
 let OpenedSearchEngine = 0;
-const quickSort = function (arr) {
+function quickSort(arr) {
     if (arr.length <= 1) {
         return arr;
     }

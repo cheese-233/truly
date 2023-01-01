@@ -35,11 +35,7 @@ function LoadingAnimation(isDelete = false) {
 function DontHaveEngine() {
     document.getElementById("search-div").innerHTML += "<h3>还没有添加搜索引擎。请先在<a href='#' id='setting_a'>设置</a>中添加一个。</h3>";
     document.getElementById("setting_a").addEventListener("click", function () {
-        try {
-            browser.runtime.openOptionsPage();//for firefox
-        } catch (err) {
-            chrome.runtime.openOptionsPage();//for chrome
-        }
+        browser.runtime.openOptionsPage();
     });
 }
 function NotForPhone() {
@@ -72,5 +68,27 @@ function addPageBtn(pageId, showText) {
     a.href = "#" + pageId;
     a.innerText = showText;
     document.getElementById("pages").appendChild(a);
+}
+async function addIframe(href, left, top) {
+    let create = await browser.windows.create({
+        url: href,
+        type: 'popup',
+        width: parseInt(window.outerWidth * 0.5),
+        height: parseInt(window.outerHeight * 0.5),
+        top: top,
+        left: left
+    });
+    return create.id;
+}
+document.ondragend = function (e) {
+    if (e.target.parentNode.className == "result_title" && e.pageX >= 0 && e.pageY >= 0) {
+        addIframe(e.target.href, e.x, e.y).then(function (TabId) {
+            let tempFun = document.onmouseover;
+            document.onmouseover = function () {
+                browser.windows.remove(TabId);
+                document.onmouseover = tempFun;
+            }
+        });
+    }
 }
 SearchSug();
