@@ -48,7 +48,8 @@ function requestPage(page) {
     let search_result_all = {};
     let RequestState = 0;
     function addPages() {
-        let la = document.createElement("label-none");
+        let la = document.createElement("label");
+        la.className = "label-none";
         let pages = String(page + 1)
         la.id = "page" + pages;
         document.getElementById("search-div").appendChild(la);
