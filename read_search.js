@@ -11,6 +11,7 @@ if (searchResult == (null || "")) {
 }
 document.title = searchResult + " - Truly";
 document.getElementById("q").value = searchResult;
+const ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36";
 let baidu_site = undefined;
 let google_site = undefined;
 let bing_site = undefined;
@@ -43,6 +44,31 @@ async function formatTitle(El, Tag1) {
         }
         els = El.getElementsByTagName(Tag1);
     }
+}
+function toSBC(str) {
+    var result = "";
+    var len = str.length;
+    for (var i = 0; i < len; i++) {
+        var cCode = str.charCodeAt(i);
+        //65248
+        cCode = (cCode >= 0xFF01 && cCode <= 0xFF5E) ? (cCode - 65248) : cCode;
+        cCode = (cCode == 0x03000) ? 0x0020 : cCode;
+        result += String.fromCharCode(cCode);
+    }
+    return result;
+}
+function formatInputTitle(title) {
+    let t1 = title;
+    let replace = {
+        " ": "", "【": "[", "】": "", "（": "", "）": "", "——": "--", "。": ".", "，": ","
+    };
+    for (let key in replace) {
+        const re = new RegExp(key, "g");
+        t1 = t1.replace(re, replace[key]);
+    }
+    t1 = toSBC(t1);
+    t1 = t1.toLowerCase();
+    return t1;
 }
 function requestPage(page) {
     let search_result_all = {};
@@ -89,6 +115,43 @@ function requestPage(page) {
             isReadyRequest = true;
         }
     }
+
+    // browser.declarativeNetRequest.getDynamicRules().then(function (Rules) {
+    //     let rmRulesIds = [];
+    //     for (let i = 0; i < Rules.length; i++) {
+    //         rmRulesIds.push(Rules[i].id);
+    //     }
+    //     browser.declarativeNetRequest.updateDynamicRules({
+    //         removeRuleIds: rmRulesIds
+    //     });
+    // });
+    let DynamicRuleId = 0;
+    async function requestXHR(site, listener, onStateChange) {
+        DynamicRuleId++;
+        // await browser.declarativeNetRequest.updateDynamicRules({
+        //     addRules: [{
+        //         "id": DynamicRuleId,
+        //         "priority": 1,
+        //         "action": {
+        //             "type": "modifyHeaders",
+        //             "requestHeaders": [
+        //                 { "header": "user-agent", "operation": "set", "value": ua }
+        //             ]
+        //         },
+        //         "condition": {
+        //             "domains": ["*://www.baidu.com/*"],
+        //             "resourceTypes": ["xmlhttprequest"]
+        //         }
+        //     }]
+        // });
+        const req = new XMLHttpRequest();
+        req.addEventListener("load", listener);
+        req.open("GET", site);//search results
+        req.withCredentials = false;
+        req.send();
+        req.onreadystatechange = onStateChange;
+        return req;
+    }
     function reqListener() {
         let div = document.createElement('div');
         div.innerHTML = this.responseText;
@@ -108,6 +171,8 @@ function requestPage(page) {
             let b_div = document.createElement('div');
             let b_text_div = document.createElement('div');
             let b_box_div = document.createElement('div');
+            let b_favicon = document.createElement('img');
+            getFavicon("https://www.baidu.com/", b_favicon);
             b_box_div.className = "row";
             try {
                 let Ele = baidu_title.getElementsByClassName("icon-official");
@@ -124,6 +189,8 @@ function requestPage(page) {
             try {
                 baidu_title.className = "result_title";
                 formatTitle(baidu_title, "em");
+                formatTitle(baidu_title, "span");
+                baidu_title.appendChild(b_favicon);
                 b_text_div.appendChild(baidu_title);
             }
             catch {
@@ -151,29 +218,26 @@ function requestPage(page) {
             }
             catch {
             }
-            search_result_all[baidu_title.innerText] = [b_div, i];
+            search_result_all[formatInputTitle(baidu_title.innerText)] = [b_div, i];
         }
         addDiv();
     }
     if (baidu_site != undefined) {
-        const req = new XMLHttpRequest();
-        req.addEventListener("load", reqListener);
-        req.open("GET", baidu_site + "&pn=" + page * 10);//Baidu's search results
-        req.send();
-        req.onreadystatechange = function () {
-            if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
+        requestXHR(baidu_site + "&pn=" + page * 10, reqListener, function () {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 RequestState++;
             }
-            else if (req.readyState == XMLHttpRequest.DONE) {
-                HandleError(req, "百度");
+            else if (this.readyState == XMLHttpRequest.DONE) {
+                HandleError(this, "百度");
             }
-        }
+        });
     }
 
     function reqListenerG() {
         let div = document.createElement('div');
         div.innerHTML = this.responseText;
         let a = div.getElementsByTagName("h3");
+        let ii = 0;
         for (let i = 0; i < a.length; i++) {
             let google_div = a[i].parentElement.parentElement.parentElement.parentElement.parentElement;
             let google_title = google_div.getElementsByTagName("h3")[0].parentElement;
@@ -192,6 +256,8 @@ function requestPage(page) {
             let b_div = document.createElement('div');
             let b_text_div = document.createElement('div');
             let b_box_div = document.createElement('div');
+            let b_favicon = document.createElement('img');
+            getFavicon("https://www.google.com/", b_favicon);
             let cites = google_div.getElementsByTagName("cite")
             for (let c = 0; c < cites.length; c++) {
                 cites[c].outerHTML = "";
@@ -203,12 +269,14 @@ function requestPage(page) {
             try {
                 formatTitle(google_title, "br");
                 formatTitle(google_title, "h3");
+                formatTitle(google_title, "div");
             }
             catch {
             }
             try {
                 b_title.appendChild(google_title);
                 b_title.className = "result_title";
+                b_title.appendChild(b_favicon);
                 b_text_div.appendChild(b_title);
             }
             catch {
@@ -227,23 +295,20 @@ function requestPage(page) {
             catch {
 
             }
-            search_result_all[google_title.innerText] = [b_div, i];
+            search_result_all[formatInputTitle(google_title.innerText)] = [b_div, ii];
+            ii++;
         }
         addDiv();
     }
     if (google_site != undefined) {
-        const reqG = new XMLHttpRequest();
-        reqG.addEventListener("load", reqListenerG);
-        reqG.open("GET", google_site + "&start=" + page * 10);//Google's search results
-        reqG.send();
-        reqG.onreadystatechange = function () {
-            if (reqG.readyState == XMLHttpRequest.DONE && reqG.status == 200) {
+        requestXHR(google_site + "&start=" + page * 10, reqListenerG, function () {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 RequestState++;
             }
-            else if (reqG.readyState == XMLHttpRequest.DONE) {
-                HandleError(reqG, "谷歌");
+            else if (this.readyState == XMLHttpRequest.DONE) {
+                HandleError(this, "谷歌");
             }
-        }
+        })
     }
     function reqListenerB() {
         let div = document.createElement('div');
@@ -273,6 +338,8 @@ function requestPage(page) {
             let b_text_div = document.createElement('div');
             let b_box_div = document.createElement('div');
             let bing_img_box = document.createElement('div');
+            let b_favicon = document.createElement('img');
+            getFavicon("https://www.bing.com/", b_favicon);
             bing_img_box.className = "result_img";
             b_box_div.className = "row";
             let bing_img = bing_div.getElementsByTagName("img")[0];
@@ -289,6 +356,7 @@ function requestPage(page) {
             try {
                 bing_title.className = "result_title";
                 formatTitle(bing_title, "strong");
+                bing_title.appendChild(b_favicon);
                 b_text_div.appendChild(bing_title);
             }
             catch {
@@ -306,23 +374,19 @@ function requestPage(page) {
             }
             catch {
             }
-            search_result_all[bing_title.innerText] = [b_div, i];
+            search_result_all[formatInputTitle(bing_title.innerText)] = [b_div, i];
         }
         addDiv();
     }
     if (bing_site != undefined) {
-        const reqB = new XMLHttpRequest();
-        reqB.addEventListener("load", reqListenerB);
-        reqB.open("GET", bing_site + "&first=" + (page * 10 + 1));//Bing's search results
-        reqB.send();
-        reqB.onreadystatechange = function () {
-            if (reqB.readyState == XMLHttpRequest.DONE && reqB.status == 200) {
+        requestXHR(bing_site + "&first=" + (page * 10 + 1) + "&search=", reqListenerB, function () {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 RequestState++;
             }
-            else if (reqB.readyState == XMLHttpRequest.DONE) {
-                HandleError(reqB, "必应");
+            else if (this.readyState == XMLHttpRequest.DONE) {
+                HandleError(this, "必应");
             }
-        }
+        })
     }
     function reqListenerS() {
         let div = document.createElement('div');
@@ -356,6 +420,8 @@ function requestPage(page) {
             let b_div = document.createElement('div');
             let b_text_div = document.createElement('div');
             let b_box_div = document.createElement('div');
+            let b_favicon = document.createElement('img');
+            getFavicon("https://www.so.com/", b_favicon);
             b_box_div.className = "row";
             try {
                 let Ele = so_title.getElementsByClassName("icon-official");
@@ -368,6 +434,7 @@ function requestPage(page) {
             try {
                 so_title.className = "result_title";
                 formatTitle(so_title, "em");
+                so_title.appendChild(b_favicon);
                 b_text_div.appendChild(so_title);
             }
             catch {
@@ -402,23 +469,19 @@ function requestPage(page) {
             }
             catch {
             }
-            search_result_all[so_title.innerText] = [b_div, i];
+            search_result_all[formatInputTitle(so_title.innerText)] = [b_div, i];
         }
         addDiv();
     }
     if (so_site != undefined) {
-        const reqS = new XMLHttpRequest();
-        reqS.addEventListener("load", reqListenerS);
-        reqS.open("GET", so_site + "&pn=" + (page + 1));//360's search results
-        reqS.send();
-        reqS.onreadystatechange = function () {
-            if (reqS.readyState == XMLHttpRequest.DONE && reqS.status == 200) {
+        requestXHR(so_site + "&pn=" + (page + 1), reqListenerS, function () {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 RequestState++;
             }
-            else if (reqS.readyState == XMLHttpRequest.DONE) {
-                HandleError(reqS, "360");
+            else if (this.readyState == XMLHttpRequest.DONE) {
+                HandleError(this, "360");
             }
-        }
+        });
     }
 }
 let isReadyRequest = true;
@@ -448,7 +511,7 @@ chrome.storage.local.get(function (result) {
         OpenedSearchEngine++;
     }
     if (all["bing"]) {
-        bing_site = "https://www.bing.com/search?q=" + searchResult;
+        bing_site = "https://cn.bing.com/search?q=" + searchResult;
         OpenedSearchEngine++;
     }
     if (all["360"]) {
@@ -460,4 +523,33 @@ chrome.storage.local.get(function (result) {
         return;
     }
     requestPagePlus();//Turn to the first page
+});
+const ruleId = 1;
+
+const rules = {
+    removeRuleIds: [ruleId],
+    addRules: [{
+        id: ruleId,
+        priority: 1,
+        condition: {
+            domains: ["www.google.com"],
+            resourceTypes: ["main_frame", "xmlhttprequest"],
+        },
+        action: {
+            type: "modifyHeaders",
+            requestHeaders: [{
+                header: "user-agent",
+                operation: "set",
+                value: ua
+            }]
+        }
+    }],
+};
+
+chrome.declarativeNetRequest.updateDynamicRules(rules, () => {
+    if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+    } else {
+        chrome.declarativeNetRequest.getDynamicRules(rules => console.log(rules));
+    }
 });

@@ -43,7 +43,8 @@
     ],
     "permissions": [
         "storage",
-        "tabs"
+        "tabs",
+        "declarativeNetRequestWithHostAccess"
     ],
     "omnibox": {
         "keyword": "truly"

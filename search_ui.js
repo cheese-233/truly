@@ -11,25 +11,36 @@ const handleScrollAnimation = () => {
     if (elementInView(document.getElementById("search-div"), 0)) {
         document.getElementById("home_button").style = "font-size:1.5rem;";
     }
-    else if (elementInView(document.getElementById("search-div"), 2)) {
+    else if (elementInView(document.getElementById("search-div"), 5)) {
         document.getElementById("home_button").style = "font-size:1.6rem;";
     }
-    else if (elementInView(document.getElementById("search-div"), 3)) {
+    else if (elementInView(document.getElementById("search-div"), 10)) {
         document.getElementById("home_button").style = "font-size:1.8rem;";
-    }
-    else if (elementInView(document.getElementById("search-div"), 5)) {
-        document.getElementById("home_button").style = "font-size:2rem;";
     }
     else {
         document.getElementById("home_button").style = "font-size:2rem;";
     }
 
 }
+function handleScrollUpdate() {
+    var clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    var scrollTop = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop || 0;
+    var scrollHeight = document.body.scrollHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+        requestPagePlus();
+    }
+}
 window.addEventListener('scroll', function () {
-    handleScrollAnimation()
+    handleScrollAnimation();
+    handleScrollUpdate();
 })
 function LoadingAnimation(isDelete = false) {
-    if (!isDelete) { document.getElementById("search-div").innerHTML += "<div class='loadingThree'><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span><span class='spinner-grow spinner-grow-sm'></span></div>"; }
+    if (!isDelete) {
+        let loadingThree = document.createElement("div");
+        loadingThree.className = "loadingThree";
+        loadingThree.innerHTML = "";
+        document.body.appendChild(loadingThree);
+    }
     else { document.getElementsByClassName("loadingThree")[document.getElementsByClassName("loadingThree").length - 1].outerHTML = ""; }
 }
 function DontHaveEngine() {
@@ -78,17 +89,40 @@ async function addIframe(href, left, top) {
         top: top,
         left: left
     });
-    return create.id;
+    return create;
+}
+let tabId;
+function handleRemove(value) {
+    const tabid = tabId;
+    if (value != tabid) {
+        browser.windows.getCurrent().then(function (w) {
+            try {
+                browser.windows.get(tabid, { populate: true }).then((e) => {
+                    let tab = e.tabs;
+                    for (let i = 0; i < tab.length; i++) {
+                        browser.tabs.move(tab[i].id, { index: -1, windowId: w.id });
+                    }
+                });
+            }
+            catch { }
+        });
+        browser.windows.onFocusChanged.removeListener(handleRemove);
+    }
 }
 document.ondragend = function (e) {
-    if (e.target.parentNode.className == "result_title" && e.pageX >= 0 && e.pageY >= 0) {
-        addIframe(e.target.href, e.x, e.y).then(function (TabId) {
-            let tempFun = document.onmouseover;
-            document.onmouseover = function () {
-                browser.windows.remove(TabId);
-                document.onmouseover = tempFun;
-            }
-        });
+    if (e.target.parentNode.className == "result_title" && e.target.tagName.toLowerCase() == "a") {
+        if (e.pageX >= 0 && e.pageY >= 0) {
+            addIframe(e.target.href, e.x, e.y).then(function (Tab) {
+                tabId = Tab.id;
+                browser.windows.onFocusChanged.addListener(handleRemove);
+            });
+        }
     }
+}
+async function getFavicon(url, img) {
+    img.src = url + "favicon.ico";
+    img.style.width = "1.5rem";
+    img.style.height = "1.5rem";
+    img.className = "favicon_img";
 }
 SearchSug();
